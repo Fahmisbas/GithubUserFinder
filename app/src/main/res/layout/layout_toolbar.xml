@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/icon_github"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_github" />
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_gravity="center"
+            android:text="@string/github_user"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"/>
+
+
+
+</androidx.appcompat.widget.Toolbar>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Github User Submission 2</string>
+    <string name="search">Pencarian</string>
+    <string name="github_user">Pengguna Github</string>
+    <string name="query_hint">Cari User</string>
+
+    <string name="error_to_load_data">Gagal memuat data</string>
+
+    <string name="tab_title_following">Mengikuti</string>
+    <string name="tab_title_followers">Pengikut</string>
+    <string name="message_waiting_for_search">Hasilnya akan tampil disini</string>
+    <string name="empty">Kosong</string>
+</resources>

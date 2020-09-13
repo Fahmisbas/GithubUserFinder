@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Github User Finder</string>
+    <string name="search">Search</string>
+    <string name="github_user">Github User</string>
+    <string name="query_hint">Search User</string>
+
+    <string name="error_to_load_data">Failed to load data</string>
+
+    <string name="tab_title_following">Following</string>
+    <string name="tab_title_followers">Followers</string>
+    <string name="message_waiting_for_search">The result will appear here</string>
+    <string name="empty">Empty</string>
+</resources>
