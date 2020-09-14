@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fahmisbas.githubuserfinder.R
 import com.fahmisbas.githubuserfinder.data.entities.UserData
+import com.fahmisbas.githubuserfinder.ui.adapter.ListUserAdapter
 import com.fahmisbas.githubuserfinder.ui.detailuser.DetailUserActivity
 import com.fahmisbas.githubuserfinder.ui.detailuser.DetailUserActivity.Companion.EXTRA_USER_PROFILE
 import com.fahmisbas.githubuserfinder.util.gone
@@ -24,7 +25,7 @@ import kotlinx.android.synthetic.main.layout_blank_indicator.*
 class SearchUserActivity : AppCompatActivity() {
 
     private lateinit var viewModel: SearchUserViewModel
-    private lateinit var searchUserAdapter: SearchUserAdapter
+    private lateinit var listUserAdapter: ListUserAdapter
 
     private var onQueryTextChangeListener: IOnQueryTextChangeListener? = null
 
@@ -57,9 +58,9 @@ class SearchUserActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        searchUserAdapter = SearchUserAdapter(arrayListOf())
+        listUserAdapter = ListUserAdapter(arrayListOf())
         rv_users.apply {
-            adapter = searchUserAdapter
+            adapter = listUserAdapter
             layoutManager = LinearLayoutManager(this@SearchUserActivity)
         }
 
@@ -67,7 +68,7 @@ class SearchUserActivity : AppCompatActivity() {
     }
 
     private fun onItemClicked() {
-        searchUserAdapter.onItemClickCallback = object : SearchUserAdapter.OnItemClickCallback {
+        listUserAdapter.onItemClickCallback = object : ListUserAdapter.OnItemClickCallback {
             override fun onItemClicked(userData: UserData) {
                 Intent(this@SearchUserActivity, DetailUserActivity::class.java).apply {
                     putExtra(EXTRA_USER_PROFILE, userData)
@@ -80,7 +81,7 @@ class SearchUserActivity : AppCompatActivity() {
     private fun observeChanges() {
         viewModel.users.observe(this, { users ->
             if (users != null) {
-                searchUserAdapter.updateList(users) { isNotEmpty ->
+                listUserAdapter.updateList(users) { isNotEmpty ->
                     if (isNotEmpty) {
                         loading.gone()
                         img_search_icon.gone()

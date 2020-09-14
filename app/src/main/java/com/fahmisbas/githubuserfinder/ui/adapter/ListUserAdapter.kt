@@ -1,4 +1,4 @@
-package com.fahmisbas.githubuserfinder.ui.searchuser
+package com.fahmisbas.githubuserfinder.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +9,9 @@ import com.fahmisbas.githubuserfinder.R
 import com.fahmisbas.githubuserfinder.data.entities.UserData
 import kotlinx.android.synthetic.main.item_user.view.*
 
-class SearchUserAdapter(
+class ListUserAdapter(
     private val userDataList: ArrayList<UserData>
-) : RecyclerView.Adapter<SearchUserAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ListUserAdapter.ViewHolder>() {
 
     var onItemClickCallback: OnItemClickCallback? = null
 
