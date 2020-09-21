@@ -124,9 +124,9 @@ class DetailUserActivity : AppCompatActivity() {
 
             nullCheckSetVisibility(userDataDetail) {
                 tv_id_name.text = userDataProfile.usernameId
-                tv_name.text = it.name
-                tv_company.text = it.company
-                tv_location.text = it.location
+                tv_name.text = userDataDetail.name
+                tv_company.text = userDataDetail.company
+                tv_location.text = userDataDetail.location
                 Glide.with(applicationContext)
                     .load(userDataProfile.profileImageUrl)
                     .placeholder(R.drawable.ic_error_24)
