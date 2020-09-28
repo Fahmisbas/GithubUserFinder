@@ -11,19 +11,17 @@ class UserItems(
 
 @Parcelize
 class UserData(
+    var id : Int? = 0,
     @SerializedName("login")
-    val usernameId: String,
+    var usernameId: String? = null,
     @SerializedName("type")
-    val type: String,
+    var type: String? = null,
     @SerializedName("avatar_url")
-    val profileImageUrl: String
-) : Parcelable
-
-class UserDataDetail(
+    var profileImageUrl: String? = null,
     @SerializedName("name")
-    val name: String?,
+    var username: String? = null,
     @SerializedName("company")
-    val company: String?,
+    var company: String? = null,
     @SerializedName("location")
-    val location: String?
-)
+    var location: String? = null,
+) : Parcelable

@@ -116,12 +116,32 @@
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include
-        android:id="@+id/tabs_layout"
-        layout="@layout/layout_tabs"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_extra__large"
-        android:visibility="gone" />
+        android:layout_height="match_parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            app:backgroundTint="@android:color/black"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="25dp"
+            android:src="@drawable/ic_favorite"
+            app:srcCompat="@drawable/ic_favorite" />
+
+        <include
+            android:id="@+id/tabs_layout"
+            layout="@layout/layout_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_extra__large"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
 
 </LinearLayout>

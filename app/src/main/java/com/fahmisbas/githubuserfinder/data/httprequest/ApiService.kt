@@ -1,7 +1,6 @@
 package com.fahmisbas.githubuserfinder.data.httprequest
 
 import com.fahmisbas.githubuserfinder.data.entities.UserData
-import com.fahmisbas.githubuserfinder.data.entities.UserDataDetail
 import com.fahmisbas.githubuserfinder.data.entities.UserItems
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -36,6 +35,6 @@ class ApiService {
     fun getUser(): Call<UserItems>? = userNameQuery?.let { retrofitBuild().getUser(it) }
     fun getUserFollowing(): Call<List<UserData>>? = usernameId?.let { retrofitBuild().getUserFollowing(it) }
     fun getUserFollowers(): Call<List<UserData>>? = usernameId?.let { retrofitBuild().getUserFollowers(it) }
-    fun getUserDetail(): Call<UserDataDetail>? = usernameId?.let { retrofitBuild().getUserDetail(it) }
+    fun getUserDetail(): Call<UserData>? = usernameId?.let { retrofitBuild().getUserDetail(it) }
 }
 

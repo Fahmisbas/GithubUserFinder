@@ -1,13 +1,19 @@
 package com.fahmisbas.githubuserfinder.ui.detailuser
 
+import android.content.ContentValues
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.fahmisbas.githubuserfinder.R
+import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.COLUMN_USERNAME
+import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.COLUMN_USERNAME_ID
+import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.CONTENT_URI
+import com.fahmisbas.githubuserfinder.data.db.UserFavoriteHelper
 import com.fahmisbas.githubuserfinder.data.entities.UserData
-import com.fahmisbas.githubuserfinder.data.entities.UserDataDetail
 import com.fahmisbas.githubuserfinder.ui.detailuser.tabs.SectionPagerAdapter
 import com.fahmisbas.githubuserfinder.util.gone
 import com.fahmisbas.githubuserfinder.util.makeToast
@@ -23,6 +29,7 @@ class DetailUserActivity : AppCompatActivity() {
 
     private lateinit var userDataProfile: UserData
     private lateinit var viewModel: DetailUserViewModel
+    private lateinit var helper: UserFavoriteHelper
 
     private var usernamePath: IUsernamePath? = null
 
@@ -30,16 +37,73 @@ class DetailUserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_user)
 
-        initialVisibility()
-        initViewModel()
-        setUserProfile()
 
+
+
+        initDatabase()
+
+        queryUserData()
+
+        initialVisibility()
+
+        initViewModel()
+
+        setUserDataProfile()
+    }
+
+    private fun queryUserData() {
+        userDataProfile = intent.getParcelableExtra(EXTRA_USER_PROFILE) as UserData
+
+    }
+
+    private fun initDatabase() {
+        helper = UserFavoriteHelper.getInstance(applicationContext)
+        helper.open()
     }
 
     override fun onResume() {
         super.onResume()
         initToolbar()
-        observeChanges()
+        setUserFavorite()
+    }
+
+    private fun setUserFavorite() {
+        var statusFavorite = false
+        btn_favorite.setOnClickListener {
+            statusFavorite = !statusFavorite
+            setStatusFavorite(statusFavorite)
+        }
+    }
+
+    private fun setStatusFavorite(statusFavorite: Boolean) {
+        if (statusFavorite) {
+            btn_favorite.setImageResource(R.drawable.ic_favorite_pressed)
+            addUserFavorite()
+        } else {
+            btn_favorite.setImageResource(R.drawable.ic_favorite)
+            deleteUserFavorite()
+        }
+    }
+
+    private fun deleteUserFavorite() {
+        if (userDataProfile.id ?: 0 > 0) {
+            helper.deleteUserById(userDataProfile.id.toString()).toLong()
+            Log.i("hehe", userDataProfile.id.toString())
+            Toast.makeText(this, "Satu item berhasil di hapus", Toast.LENGTH_SHORT).show()
+        } else {
+            return
+        }
+    }
+
+    private fun addUserFavorite() {
+        val result = helper.insertUserData(userDataProfile)
+        if (result.toInt() == userDataProfile.id) {
+            return
+        }else {
+            userDataProfile.id = result.toInt()
+            Log.i("haha", userDataProfile.id.toString())
+            Toast.makeText(this, "Satu item berhasil disimpan", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun initialVisibility() {
@@ -60,9 +124,11 @@ class DetailUserActivity : AppCompatActivity() {
         usernamePath = viewModel
     }
 
-    private fun setUserProfile() {
-        userDataProfile = intent.getParcelableExtra(EXTRA_USER_PROFILE) as UserData
-        usernamePath?.usernameId(userDataProfile.usernameId)
+    private fun setUserDataProfile() {
+        userDataProfile.usernameId?.let {
+            usernamePath?.usernameId(it)
+        }
+
     }
 
     private fun initToolbar() {
@@ -82,7 +148,7 @@ class DetailUserActivity : AppCompatActivity() {
     }
 
     private fun observeChanges() {
-        observe(viewModel.userDataDetail, ::bindData)
+        observe(viewModel.userDataDetail, ::updateData)
         observe(viewModel.error, ::isError)
 
         viewModel.userFollowing.observe(this, { following ->
@@ -114,19 +180,19 @@ class DetailUserActivity : AppCompatActivity() {
         }
     }
 
-    private fun bindData(userDataDetail: UserDataDetail) {
-        userDataDetail.let {
-            loading.gone()
-            tabs_layout.visible()
-            img_profile_picture.visible()
-            img_location.visible()
-            img_company.visible()
+    private fun updateData(userData: UserData) {
+        userData.let {
+            userDataProfile.username = userData.username
+            userDataProfile.company = userData.company
+            userDataProfile.location = userData.location
 
-            nullCheckSetVisibility(userDataDetail) {
+            loadDataVisibility()
+
+            nullCheckSetVisibility() {
                 tv_id_name.text = userDataProfile.usernameId
-                tv_name.text = userDataDetail.name
-                tv_company.text = userDataDetail.company
-                tv_location.text = userDataDetail.location
+                tv_name.text = userDataProfile.username
+                tv_company.text = userDataProfile.company
+                tv_location.text = userDataProfile.location
                 Glide.with(applicationContext)
                     .load(userDataProfile.profileImageUrl)
                     .placeholder(R.drawable.ic_error_24)
@@ -135,23 +201,31 @@ class DetailUserActivity : AppCompatActivity() {
         }
     }
 
-    private fun nullCheckSetVisibility(it: UserDataDetail, function: () -> Unit) {
-        if (it.company.isNullOrEmpty() && it.location.isNullOrEmpty()) {
+
+    private fun loadDataVisibility() {
+        loading.gone()
+        tabs_layout.visible()
+        img_profile_picture.visible()
+        img_location.visible()
+        img_company.visible()
+    }
+
+    private fun nullCheckSetVisibility(function: () -> Unit) {
+        if (userDataProfile.company.isNullOrEmpty() && userDataProfile.location.isNullOrEmpty()) {
             img_company.gone()
             tv_company.gone()
             tv_location.gone()
             img_location.gone()
-        } else if (it.company.isNullOrEmpty()) {
+        } else if (userDataProfile.company.isNullOrEmpty()) {
             img_company.gone()
             tv_company.gone()
-        } else if (it.location.isNullOrEmpty()) {
+        } else if (userDataProfile.location.isNullOrEmpty()) {
             tv_location.gone()
             img_location.gone()
         }
 
         function.invoke()
     }
-
 
     companion object {
         const val EXTRA_USER_PROFILE = "user profile"
