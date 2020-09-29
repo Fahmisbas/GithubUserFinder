@@ -11,6 +11,7 @@ class UserItems(
 
 @Parcelize
 class UserData(
+    @SerializedName("id")
     var id : Int? = 0,
     @SerializedName("login")
     var usernameId: String? = null,
@@ -18,6 +19,10 @@ class UserData(
     var type: String? = null,
     @SerializedName("avatar_url")
     var profileImageUrl: String? = null,
+    @SerializedName("following_url")
+    var followingUrl : String? = null,
+    @SerializedName("followers_url")
+    var followersUrl : String? = null,
     @SerializedName("name")
     var username: String? = null,
     @SerializedName("company")

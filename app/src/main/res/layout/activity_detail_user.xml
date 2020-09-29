@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.detailuser.DetailUserActivity">
+    tools:context=".ui.detailuser.UserDetailActivity">
 
     <include
         android:id="@+id/toolbar_detailuser"
@@ -36,6 +36,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="@dimen/margin_medium"
+            android:visibility="gone"
             android:src="@drawable/ic_launcher_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -120,17 +121,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="25dp"
             android:clickable="true"
             android:focusable="true"
-            app:backgroundTint="@android:color/black"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="25dp"
             android:src="@drawable/ic_favorite"
+            app:backgroundTint="@android:color/black"
             app:srcCompat="@drawable/ic_favorite" />
 
         <include

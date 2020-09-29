@@ -35,6 +35,10 @@ class TabsFragment : Fragment() {
 
         if (index == 1) {
             arguments?.getParcelableArrayList<UserData>(USER_FOLLOWING)?.let {
+                if (it.isEmpty()) {
+                    empty_user_list.visible()
+
+                }
                 adapter.updateList(it) { isNotEmpty ->
                     if (!isNotEmpty) {
                         empty_user_list.visible()
@@ -43,6 +47,9 @@ class TabsFragment : Fragment() {
             }
         } else if (index == 2) {
             arguments?.getParcelableArrayList<UserData>(USER_FOLLOWERS)?.let {
+                if (it.isEmpty()) {
+                    empty_user_list.visible()
+                }
                 adapter.updateList(it) { isNotEmpty ->
                     if (!isNotEmpty) {
                         empty_user_list.visible()
@@ -53,7 +60,7 @@ class TabsFragment : Fragment() {
     }
 
     companion object {
-        private const val  SECTION_NUMBER = "section_number"
+        private const val SECTION_NUMBER = "section_number"
         private const val USER_FOLLOWING = "user_following"
         private const val USER_FOLLOWERS = "user_followers"
 

@@ -10,4 +10,5 @@
     <string name="tab_title_followers">Followers</string>
     <string name="message_waiting_for_search">The result will appear here</string>
     <string name="empty">Empty</string>
+    <string name="list_is_empty">List is empty</string>
 </resources>

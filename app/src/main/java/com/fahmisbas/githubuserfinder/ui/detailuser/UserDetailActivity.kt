@@ -1,74 +1,74 @@
 package com.fahmisbas.githubuserfinder.ui.detailuser
 
-import android.content.ContentValues
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.fahmisbas.githubuserfinder.R
-import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.COLUMN_USERNAME
-import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.COLUMN_USERNAME_ID
-import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.CONTENT_URI
 import com.fahmisbas.githubuserfinder.data.db.UserFavoriteHelper
 import com.fahmisbas.githubuserfinder.data.entities.UserData
 import com.fahmisbas.githubuserfinder.ui.detailuser.tabs.SectionPagerAdapter
-import com.fahmisbas.githubuserfinder.util.gone
-import com.fahmisbas.githubuserfinder.util.makeToast
-import com.fahmisbas.githubuserfinder.util.observe
-import com.fahmisbas.githubuserfinder.util.visible
+import com.fahmisbas.githubuserfinder.util.*
+import kotlinx.android.synthetic.main.activity_detail_user.*
 import kotlinx.android.synthetic.main.layout_blank_indicator.*
 import kotlinx.android.synthetic.main.layout_tabs.*
 import kotlinx.android.synthetic.main.layout_toolbar.view.*
-import kotlinx.android.synthetic.main.activity_detail_user.*
 
 
-class DetailUserActivity : AppCompatActivity() {
+class UserDetailActivity : AppCompatActivity() {
 
     private lateinit var userDataProfile: UserData
-    private lateinit var viewModel: DetailUserViewModel
+
+    private lateinit var detailViewModel: UserDetailViewModel
     private lateinit var helper: UserFavoriteHelper
 
     private var usernamePath: IUsernamePath? = null
+
+    private var statusFavorite = false
+    private var isUserExist = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_user)
 
-
-
-
         initDatabase()
-
-        queryUserData()
-
-        initialVisibility()
-
         initViewModel()
+        initialVisibility()
+        queryById()
+        setUsernamePath()
 
-        setUserDataProfile()
-    }
-
-    private fun queryUserData() {
-        userDataProfile = intent.getParcelableExtra(EXTRA_USER_PROFILE) as UserData
-
-    }
-
-    private fun initDatabase() {
-        helper = UserFavoriteHelper.getInstance(applicationContext)
-        helper.open()
     }
 
     override fun onResume() {
         super.onResume()
         initToolbar()
         setUserFavorite()
+        observeChanges()
+    }
+
+    private fun queryById() {
+        detailViewModel.isUserExists(helper, userDataProfile).observe(this, { isExist ->
+            if (isExist) {
+                userDataProfile =
+                    MappingHelper.mapCursorToObject(helper.queryById(userDataProfile.id.toString()))
+                isUserExist = true
+                setStatusFavorite(true)
+                updateData(userDataProfile)
+            } else {
+                isUserExist = false
+                btn_favorite.setImageResource(R.drawable.ic_favorite)
+            }
+        })
+    }
+
+    private fun initDatabase() {
+        userDataProfile = intent.getParcelableExtra(EXTRA_USER_PROFILE) as UserData
+        helper = UserFavoriteHelper.getInstance(applicationContext)
+        helper.open()
     }
 
     private fun setUserFavorite() {
-        var statusFavorite = false
         btn_favorite.setOnClickListener {
             statusFavorite = !statusFavorite
             setStatusFavorite(statusFavorite)
@@ -77,33 +77,38 @@ class DetailUserActivity : AppCompatActivity() {
 
     private fun setStatusFavorite(statusFavorite: Boolean) {
         if (statusFavorite) {
-            btn_favorite.setImageResource(R.drawable.ic_favorite_pressed)
+            btn_favorite.setImageResource(R.drawable.ic_favorite_filled)
+            if (isUserExist) {
+                if (btn_favorite.isPressed) {
+                    btn_favorite.setImageResource(R.drawable.ic_favorite)
+                    deleteUserFavorite()
+                    isUserExist = false
+
+                }
+                return
+            }
             addUserFavorite()
         } else {
             btn_favorite.setImageResource(R.drawable.ic_favorite)
             deleteUserFavorite()
+            isUserExist = false
         }
     }
 
     private fun deleteUserFavorite() {
-        if (userDataProfile.id ?: 0 > 0) {
-            helper.deleteUserById(userDataProfile.id.toString()).toLong()
-            Log.i("hehe", userDataProfile.id.toString())
-            Toast.makeText(this, "Satu item berhasil di hapus", Toast.LENGTH_SHORT).show()
-        } else {
-            return
-        }
+        detailViewModel.deleteUserById(helper, userDataProfile).observe(this, { isSuccessful ->
+            if (isSuccessful) {
+                this.makeToast("Sukses menghapus dari favorit")
+            }
+        })
     }
 
     private fun addUserFavorite() {
-        val result = helper.insertUserData(userDataProfile)
-        if (result.toInt() == userDataProfile.id) {
-            return
-        }else {
-            userDataProfile.id = result.toInt()
-            Log.i("haha", userDataProfile.id.toString())
-            Toast.makeText(this, "Satu item berhasil disimpan", Toast.LENGTH_SHORT).show()
-        }
+        detailViewModel.insertUserData(helper, userDataProfile).observe(this, { isSuccessful ->
+            if (isSuccessful) {
+                this.makeToast("Sukses menambah daftar favorit")
+            }
+        })
     }
 
     private fun initialVisibility() {
@@ -117,18 +122,17 @@ class DetailUserActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProvider(
+        detailViewModel = ViewModelProvider(
             this,
             ViewModelProvider.NewInstanceFactory()
-        ).get(DetailUserViewModel::class.java)
-        usernamePath = viewModel
+        ).get(UserDetailViewModel::class.java)
+        usernamePath = detailViewModel
     }
 
-    private fun setUserDataProfile() {
+    private fun setUsernamePath() {
         userDataProfile.usernameId?.let {
             usernamePath?.usernameId(it)
         }
-
     }
 
     private fun initToolbar() {
@@ -148,11 +152,10 @@ class DetailUserActivity : AppCompatActivity() {
     }
 
     private fun observeChanges() {
-        observe(viewModel.userDataDetail, ::updateData)
-        observe(viewModel.error, ::isError)
-
-        viewModel.userFollowing.observe(this, { following ->
-            viewModel.userFollowers.observe(this@DetailUserActivity, { followers ->
+        observe(detailViewModel.userDetail, ::updateData)
+        observe(detailViewModel.error, ::isError)
+        detailViewModel.following.observe(this, { following ->
+            detailViewModel.followers.observe(this@UserDetailActivity, { followers ->
                 following?.let {
                     tabLayout(following, followers)
                 }
@@ -171,12 +174,20 @@ class DetailUserActivity : AppCompatActivity() {
 
     private fun isError(error: Boolean) {
         if (error) {
+            if (isUserExist) {
+                tv_failed_to_load_data.gone()
+                img_failed_to_load_data.gone()
+                loading.gone()
+            } else {
+                img_failed_to_load_data.visible()
+                tv_failed_to_load_data.visible()
+                loading.gone()
+            }
             this.makeToast(resources.getString(R.string.error_to_load_data))
-            img_failed_to_load_data.visible()
-            tv_failed_to_load_data.visible()
-            loading.gone()
+
         } else {
             loading.gone()
+
         }
     }
 
@@ -185,29 +196,25 @@ class DetailUserActivity : AppCompatActivity() {
             userDataProfile.username = userData.username
             userDataProfile.company = userData.company
             userDataProfile.location = userData.location
-
+            userDataProfile.id = userData.id
+            userDataProfile.followingUrl = userData.followingUrl
+            userDataProfile.followersUrl = userData.followersUrl
             loadDataVisibility()
-
-            nullCheckSetVisibility() {
-                tv_id_name.text = userDataProfile.usernameId
-                tv_name.text = userDataProfile.username
-                tv_company.text = userDataProfile.company
-                tv_location.text = userDataProfile.location
-                Glide.with(applicationContext)
-                    .load(userDataProfile.profileImageUrl)
-                    .placeholder(R.drawable.ic_error_24)
-                    .into(img_profile_picture)
-            }
+            isUserDataNullSetVisibility()
         }
     }
 
-
-    private fun loadDataVisibility() {
-        loading.gone()
-        tabs_layout.visible()
-        img_profile_picture.visible()
-        img_location.visible()
-        img_company.visible()
+    private fun isUserDataNullSetVisibility() {
+        nullCheckSetVisibility() {
+            tv_id_name.text = userDataProfile.usernameId
+            tv_name.text = userDataProfile.username
+            tv_company.text = userDataProfile.company
+            tv_location.text = userDataProfile.location
+            Glide.with(applicationContext)
+                .load(userDataProfile.profileImageUrl)
+                .placeholder(R.drawable.ic_error_24)
+                .into(img_profile_picture)
+        }
     }
 
     private fun nullCheckSetVisibility(function: () -> Unit) {
@@ -225,6 +232,20 @@ class DetailUserActivity : AppCompatActivity() {
         }
 
         function.invoke()
+    }
+
+
+    private fun loadDataVisibility() {
+        loading.gone()
+        tabs_layout.visible()
+        img_profile_picture.visible()
+        img_location.visible()
+        img_company.visible()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        helper.close()
     }
 
     companion object {

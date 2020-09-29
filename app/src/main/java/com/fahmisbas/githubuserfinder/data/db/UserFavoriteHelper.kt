@@ -6,15 +6,16 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.COLUMN_COMPANY
+import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.COLUMN_FOLLOWERS_URL
+import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.COLUMN_FOLLOWING_URL
+import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.COLUMN_ID
 import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.COLUMN_LOCATION
 import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.COLUMN_PROFILE_IMAGE_URL
 import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.COLUMN_TYPE
 import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.COLUMN_USERNAME
 import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.COLUMN_USERNAME_ID
 import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.TABLE_NAME
-import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion._ID
 import com.fahmisbas.githubuserfinder.data.entities.UserData
-import kotlin.jvm.Throws
 
 class UserFavoriteHelper(context: Context) {
 
@@ -51,7 +52,7 @@ class UserFavoriteHelper(context: Context) {
             null,
             null,
             null,
-            "$_ID ASC"
+            "$COLUMN_ID ASC"
         )
     }
 
@@ -63,7 +64,7 @@ class UserFavoriteHelper(context: Context) {
         return database.query(
             DATABASE_TABLE,
             null,
-            "$_ID = ?",
+            "$COLUMN_ID = ?",
             arrayOf(id),
             null,
             null,
@@ -75,15 +76,19 @@ class UserFavoriteHelper(context: Context) {
     fun getAllUsers() : ArrayList<UserData> {
         val arrayList = ArrayList<UserData>()
         val cursor = database.query(DATABASE_TABLE, null, null, null, null, null,
-            "$_ID ASC", null)
+            "$COLUMN_ID ASC", null)
         cursor.moveToFirst()
         var userData : UserData
         if (cursor.count > 0) {
             do {
                 userData = UserData()
-                userData.id = cursor.getInt(cursor.getColumnIndexOrThrow(_ID))
+                userData.id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID))
                 userData.usernameId = cursor.getString(cursor.getColumnIndexOrThrow(
                     COLUMN_USERNAME_ID))
+                userData.followersUrl = cursor.getString(cursor.getColumnIndexOrThrow(
+                    COLUMN_FOLLOWERS_URL))
+                userData.followingUrl = cursor.getString(cursor.getColumnIndexOrThrow(
+                    COLUMN_FOLLOWING_URL))
                 userData.location = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_LOCATION))
                 userData.company = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COMPANY))
                 userData.username = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USERNAME))
@@ -104,8 +109,11 @@ class UserFavoriteHelper(context: Context) {
         val args = ContentValues()
         if (userData != null) {
             args.put(COLUMN_USERNAME_ID, userData.usernameId)
+            args.put(COLUMN_ID, userData.id)
             args.put(COLUMN_TYPE, userData.type)
             args.put(COLUMN_PROFILE_IMAGE_URL, userData.profileImageUrl)
+            args.put(COLUMN_FOLLOWING_URL, userData.followingUrl)
+            args.put(COLUMN_FOLLOWERS_URL, userData.followersUrl)
             args.put(COLUMN_USERNAME, userData.username)
             args.put(COLUMN_COMPANY, userData.company)
             args.put(COLUMN_LOCATION, userData.location)
@@ -114,7 +122,7 @@ class UserFavoriteHelper(context: Context) {
     }
 
     fun deleteUserById(id : String) : Int {
-        return database.delete(TABLE_NAME, "$_ID = '$id'", null)
+        return database.delete(TABLE_NAME, "$COLUMN_ID = '$id'", null)
     }
 
     fun updateUserData(userData: UserData?): Int {
@@ -123,11 +131,13 @@ class UserFavoriteHelper(context: Context) {
             args.put(COLUMN_USERNAME_ID, userData.usernameId)
             args.put(COLUMN_TYPE, userData.type)
             args.put(COLUMN_PROFILE_IMAGE_URL, userData.profileImageUrl)
+            args.put(COLUMN_FOLLOWING_URL, userData.followingUrl)
+            args.put(COLUMN_FOLLOWERS_URL, userData.followersUrl)
             args.put(COLUMN_USERNAME, userData.username)
             args.put(COLUMN_COMPANY, userData.company)
             args.put(COLUMN_LOCATION, userData.location)
         }
-        return database.update(DATABASE_TABLE, args, _ID + "= '" + userData?.id + "'", null)
+        return database.update(DATABASE_TABLE, args, COLUMN_ID + "= '" + userData?.id + "'", null)
     }
 
 }

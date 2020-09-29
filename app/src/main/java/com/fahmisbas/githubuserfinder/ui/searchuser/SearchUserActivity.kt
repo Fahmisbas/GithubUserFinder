@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
@@ -13,8 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fahmisbas.githubuserfinder.R
 import com.fahmisbas.githubuserfinder.data.entities.UserData
 import com.fahmisbas.githubuserfinder.ui.adapter.ListUserAdapter
-import com.fahmisbas.githubuserfinder.ui.detailuser.DetailUserActivity
-import com.fahmisbas.githubuserfinder.ui.detailuser.DetailUserActivity.Companion.EXTRA_USER_PROFILE
+import com.fahmisbas.githubuserfinder.ui.detailuser.UserDetailActivity
+import com.fahmisbas.githubuserfinder.ui.detailuser.UserDetailActivity.Companion.EXTRA_USER_PROFILE
+import com.fahmisbas.githubuserfinder.ui.favoriteuser.UserFavoriteActivity
 import com.fahmisbas.githubuserfinder.util.gone
 import com.fahmisbas.githubuserfinder.util.makeToast
 import com.fahmisbas.githubuserfinder.util.observe
@@ -70,7 +72,7 @@ class SearchUserActivity : AppCompatActivity() {
     private fun onItemClicked() {
         listUserAdapter.onItemClickCallback = object : ListUserAdapter.OnItemClickCallback {
             override fun onItemClicked(userData: UserData) {
-                Intent(this@SearchUserActivity, DetailUserActivity::class.java).apply {
+                Intent(this@SearchUserActivity, UserDetailActivity::class.java).apply {
                     putExtra(EXTRA_USER_PROFILE, userData)
                     startActivity(this)
                 }
@@ -142,4 +144,14 @@ class SearchUserActivity : AppCompatActivity() {
             }
         })
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.favorite) {
+            Intent(this@SearchUserActivity, UserFavoriteActivity::class.java).apply {
+                startActivity(this)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }
