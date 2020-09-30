@@ -1,8 +1,3 @@
-
-/*
- * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
- */
-
 package com.fahmisbas.consumerapp.ui.settings
 
 import android.content.Context

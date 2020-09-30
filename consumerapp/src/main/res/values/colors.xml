@@ -1,11 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2020 by Fahmi Sulaiman Baswedan
-  -->
-
-<!--
-  ~ Copyright (c) 2020 by Fahmi Sulaiman Baswedan
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#2d2d2d</color>
     <color name="colorPrimaryDark">#2d2d2d</color>

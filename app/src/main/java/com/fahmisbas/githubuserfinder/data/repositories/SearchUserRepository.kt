@@ -1,11 +1,3 @@
-/*
- * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
- */
-
-/*
- * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
- */
-
 package com.fahmisbas.githubuserfinder.data.repositories
 
 import androidx.lifecycle.LiveData

@@ -1,9 +1,3 @@
-
-
-/*
- * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
- */
-
 package com.fahmisbas.consumerapp.ui.detailuser
 
 import android.os.Bundle

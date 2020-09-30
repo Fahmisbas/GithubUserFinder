@@ -1,11 +1,3 @@
-/*
- * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
- */
-
-/*
- * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
- */
-
 package com.fahmisbas.githubuserfinder.data.service
 
 import android.app.PendingIntent
