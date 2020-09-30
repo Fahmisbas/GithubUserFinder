@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
 package com.fahmisbas.githubuserfinder.data.httprequest
 
 import com.fahmisbas.githubuserfinder.data.entities.UserData
@@ -33,8 +37,12 @@ class ApiService {
     }
 
     fun getUser(): Call<UserItems>? = userNameQuery?.let { retrofitBuild().getUser(it) }
-    fun getUserFollowing(): Call<List<UserData>>? = usernameId?.let { retrofitBuild().getUserFollowing(it) }
-    fun getUserFollowers(): Call<List<UserData>>? = usernameId?.let { retrofitBuild().getUserFollowers(it) }
+    fun getUserFollowing(): Call<List<UserData>>? =
+        usernameId?.let { retrofitBuild().getUserFollowing(it) }
+
+    fun getUserFollowers(): Call<List<UserData>>? =
+        usernameId?.let { retrofitBuild().getUserFollowers(it) }
+
     fun getUserDetail(): Call<UserData>? = usernameId?.let { retrofitBuild().getUserDetail(it) }
 }
 
