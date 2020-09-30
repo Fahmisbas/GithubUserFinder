@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
 package com.fahmisbas.githubuserfinder.ui.detailuser
 
 import android.content.Context
@@ -16,9 +24,14 @@ class UserDetailViewModel : ViewModel(), IUsernamePath {
     var following: LiveData<List<UserData>> = repository.getUserFollowing()
     var followers: LiveData<List<UserData>> = repository.getUserFollowers()
 
-    fun getUserData(context: Context, userData: UserData) : LiveData<Cursor> = repository.getUserData(context, userData)
-    fun deleteUserData(context: Context, userData: UserData) : LiveData<Boolean> = repository.deleteUserData(context, userData)
-    fun insertUserData(context: Context, userData: UserData) : LiveData<Boolean> = repository.insertUserData(context, userData)
+    fun getUserData(context: Context, userData: UserData): LiveData<Cursor> =
+        repository.getUserData(context, userData)
+
+    fun deleteUserData(context: Context, userData: UserData): LiveData<Boolean> =
+        repository.deleteUserData(context, userData)
+
+    fun insertUserData(context: Context, userData: UserData): LiveData<Boolean> =
+        repository.insertUserData(context, userData)
 
     override fun usernameId(username: String) {
         repository.usernameId(username)

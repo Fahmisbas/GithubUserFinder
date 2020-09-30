@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
 package com.fahmisbas.githubuserfinder.ui.detailuser.tabs
 
 import android.content.Context
@@ -12,7 +20,8 @@ class SectionPagerAdapter(
     private val context: Context,
     fm: FragmentManager,
     private var following: List<UserData>,
-    private var followers: List<UserData>) :
+    private var followers: List<UserData>
+) :
     FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     @StringRes

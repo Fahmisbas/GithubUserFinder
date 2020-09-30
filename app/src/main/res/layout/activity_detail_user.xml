@@ -1,4 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+  -->
+
+<!--
+  ~ Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+  -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -36,8 +43,8 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="@dimen/margin_medium"
-            android:visibility="gone"
             android:src="@drawable/ic_launcher_background"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

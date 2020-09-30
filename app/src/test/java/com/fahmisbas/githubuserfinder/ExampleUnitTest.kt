@@ -1,8 +1,15 @@
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
 package com.fahmisbas.githubuserfinder
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).

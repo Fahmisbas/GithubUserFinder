@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
 package com.fahmisbas.consumerapp.data.service
 
 import android.app.AlarmManager
@@ -88,7 +96,6 @@ object AlarmHelper {
 
         alarmManager.cancel(pendingIntent)
     }
-
 
 
 }

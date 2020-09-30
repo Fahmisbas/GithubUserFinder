@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
 package com.fahmisbas.githubuserfinder.data.db
 
 import android.net.Uri
@@ -21,7 +29,7 @@ object DatabaseContract {
             const val COLUMN_COMPANY = "company"
             const val COLUMN_LOCATION = "location"
 
-            val CONTENT_URI : Uri = Uri.Builder().scheme(SCHEME)
+            val CONTENT_URI: Uri = Uri.Builder().scheme(SCHEME)
                 .authority(AUTHORITY)
                 .appendPath(TABLE_NAME)
                 .build()

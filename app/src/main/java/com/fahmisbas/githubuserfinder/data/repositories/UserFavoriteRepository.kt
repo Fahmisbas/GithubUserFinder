@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
 package com.fahmisbas.githubuserfinder.data.repositories
 
 import android.content.Context
@@ -11,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class UserFavoriteRepository {
 
-    fun getUsersData(context: Context) : LiveData<List<UserData>>{
+    fun getUsersData(context: Context): LiveData<List<UserData>> {
         val liveData = MutableLiveData<List<UserData>>()
         GlobalScope.launch {
             val cursor = context.contentResolver.query(CONTENT_URI, null, null, null, null)

@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
 package com.fahmisbas.githubuserfinder.util
 
 import android.content.ContentValues
@@ -18,7 +26,7 @@ import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Compa
 import com.fahmisbas.githubuserfinder.data.entities.UserData
 
 
-fun Context.makeToast(text : String) {
+fun Context.makeToast(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }
 
@@ -34,7 +42,7 @@ fun <T> LifecycleOwner.observe(liveData: LiveData<T>, action: (t: T) -> Unit) {
     liveData.observe(this, { it?.let { t -> action(t) } })
 }
 
-fun UserData.toContentValues() : ContentValues =
+fun UserData.toContentValues(): ContentValues =
     ContentValues().apply {
         put(COLUMN_USERNAME_ID, usernameId)
         put(COLUMN_ID, id)

@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
 package com.fahmisbas.consumerapp.ui.detailuser
 
 import android.os.Bundle
@@ -199,7 +207,7 @@ class UserDetailActivity : AppCompatActivity() {
     }
 
     private fun updateViews() {
-        nullCheckSetVisibility() {
+        nullCheckSetVisibility {
             tv_id_name.text = userDataProfile.usernameId
             tv_name.text = userDataProfile.username
             tv_company.text = userDataProfile.company

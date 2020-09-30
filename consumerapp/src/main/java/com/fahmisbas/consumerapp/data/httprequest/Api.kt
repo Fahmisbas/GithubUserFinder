@@ -6,6 +6,14 @@
  * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
  */
 
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
 package com.fahmisbas.consumerapp.data.httprequest
 
 import com.fahmisbas.consumerapp.data.entities.UserData
@@ -17,7 +25,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface Api {
-
 
 
     @GET("search/users?")

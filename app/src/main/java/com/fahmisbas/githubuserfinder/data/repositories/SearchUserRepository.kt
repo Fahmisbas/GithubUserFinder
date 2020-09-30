@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
 package com.fahmisbas.githubuserfinder.data.repositories
 
 import androidx.lifecycle.LiveData
@@ -16,12 +24,12 @@ class SearchUserRepository {
     private var error = MutableLiveData<Boolean>()
     private var users = MutableLiveData<List<UserData>>()
 
-    fun onQueryTextSubmit(keyword : String) {
+    fun onQueryTextSubmit(keyword: String) {
         apiService.userNameQuery = keyword
         getUsers()
     }
 
-    fun getUsers() : LiveData<List<UserData>> {
+    fun getUsers(): LiveData<List<UserData>> {
         apiService.getUser()?.enqueue(object : Callback<UserItems> {
             override fun onResponse(call: Call<UserItems>, response: Response<UserItems>) {
                 response.let { result ->

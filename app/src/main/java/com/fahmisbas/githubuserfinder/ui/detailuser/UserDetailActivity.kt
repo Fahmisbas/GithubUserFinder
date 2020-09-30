@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
 package com.fahmisbas.githubuserfinder.ui.detailuser
 
 import android.os.Bundle
@@ -89,19 +97,21 @@ class UserDetailActivity : AppCompatActivity() {
     }
 
     private fun deleteUserFavorite() {
-        detailViewModel.deleteUserData(applicationContext, userDataProfile).observe(this, { isSuccessful ->
-            if (isSuccessful) {
-                this.makeToast(resources.getString(R.string.removed))
-            }
-        })
+        detailViewModel.deleteUserData(applicationContext, userDataProfile)
+            .observe(this, { isSuccessful ->
+                if (isSuccessful) {
+                    this.makeToast(resources.getString(R.string.removed))
+                }
+            })
     }
 
     private fun addUserFavorite() {
-        detailViewModel.insertUserData(applicationContext, userDataProfile).observe(this, { isSuccessful ->
-            if (isSuccessful) {
-                this.makeToast(resources.getString(R.string.added))
-            }
-        })
+        detailViewModel.insertUserData(applicationContext, userDataProfile)
+            .observe(this, { isSuccessful ->
+                if (isSuccessful) {
+                    this.makeToast(resources.getString(R.string.added))
+                }
+            })
     }
 
     private fun initialVisibility() {
@@ -157,7 +167,8 @@ class UserDetailActivity : AppCompatActivity() {
     }
 
     private fun tabLayout(following: List<UserData>, followers: List<UserData>) {
-        val sectionsPagerAdapter = SectionPagerAdapter(this, supportFragmentManager, following, followers)
+        val sectionsPagerAdapter =
+            SectionPagerAdapter(this, supportFragmentManager, following, followers)
         view_pager.adapter = sectionsPagerAdapter
         tabs.setupWithViewPager(view_pager)
 
@@ -199,7 +210,7 @@ class UserDetailActivity : AppCompatActivity() {
     }
 
     private fun updateViews() {
-        nullCheckSetVisibility() {
+        nullCheckSetVisibility {
             tv_id_name.text = userDataProfile.usernameId
             tv_name.text = userDataProfile.username
             tv_company.text = userDataProfile.company

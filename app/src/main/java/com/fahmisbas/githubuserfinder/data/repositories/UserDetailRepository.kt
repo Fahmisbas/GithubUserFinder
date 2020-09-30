@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
 package com.fahmisbas.githubuserfinder.data.repositories
 
 import android.content.Context
@@ -95,13 +103,13 @@ class UserDetailRepository {
 
     fun getError() = error
 
-    fun getUserData(context : Context, userData: UserData): LiveData<Cursor> {
+    fun getUserData(context: Context, userData: UserData): LiveData<Cursor> {
         val data = MutableLiveData<Cursor>()
 
         val uri = "$CONTENT_URI/${userData.id}".toUri()
 
         GlobalScope.launch {
-            val cursor = context.contentResolver.query(uri, null, null,null,null)
+            val cursor = context.contentResolver.query(uri, null, null, null, null)
             if (cursor?.count ?: 0 > 0) {
                 data.postValue(cursor)
             }
@@ -109,7 +117,7 @@ class UserDetailRepository {
         return data
     }
 
-    fun deleteUserData(context: Context, userData: UserData) : LiveData<Boolean>{
+    fun deleteUserData(context: Context, userData: UserData): LiveData<Boolean> {
         val isSuccessful = MutableLiveData<Boolean>()
 
         val uri = "$CONTENT_URI/${userData.id}".toUri()
@@ -125,7 +133,7 @@ class UserDetailRepository {
         return isSuccessful
     }
 
-    fun insertUserData(context: Context, userData: UserData) : LiveData<Boolean> {
+    fun insertUserData(context: Context, userData: UserData): LiveData<Boolean> {
         val isSuccessful = MutableLiveData<Boolean>()
         GlobalScope.launch {
             context.contentResolver.insert(CONTENT_URI, userData.toContentValues())

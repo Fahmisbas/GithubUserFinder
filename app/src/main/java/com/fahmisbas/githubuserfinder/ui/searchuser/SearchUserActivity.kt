@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
 package com.fahmisbas.githubuserfinder.ui.searchuser
 
 import android.app.SearchManager
@@ -147,7 +155,7 @@ class SearchUserActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.favorite -> {
                 Intent(this@SearchUserActivity, UserFavoriteActivity::class.java).apply {
                     startActivity(this)

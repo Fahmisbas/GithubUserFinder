@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
+/*
+ * Copyright (c) 2020 by Fahmi Sulaiman Baswedan
+ */
+
 package com.fahmisbas.githubuserfinder.data.db
 
 import android.content.Context
@@ -14,13 +22,14 @@ import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Compa
 import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.COLUMN_USERNAME_ID
 import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.TABLE_NAME
 
-internal class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+internal class DatabaseHelper(context: Context) :
+    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
         private const val DATABASE_NAME = "db_user_favorite"
         private const val DATABASE_VERSION = 1
 
-        private val SQL_CREATE_TABLE_USER_FAVORITE ="CREATE TABLE $TABLE_NAME" +
+        private val SQL_CREATE_TABLE_USER_FAVORITE = "CREATE TABLE $TABLE_NAME" +
                 " (${COLUMN_ID} INTEGER," +
                 " ${COLUMN_USERNAME} TEXT," +
                 " ${COLUMN_USERNAME_ID} TEXT," +
