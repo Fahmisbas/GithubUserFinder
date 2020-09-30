@@ -1,5 +1,6 @@
 package com.fahmisbas.githubuserfinder.data.repositories
 
+import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.fahmisbas.githubuserfinder.data.db.UserFavoriteHelper
@@ -91,17 +92,15 @@ class UserDetailRepository {
 
     fun getError() = error
 
-    fun isUserExists(helper: UserFavoriteHelper, userData: UserData): LiveData<Boolean> {
-        val isExist = MutableLiveData<Boolean>()
+    fun isUserExists(helper: UserFavoriteHelper, userData: UserData): LiveData<Cursor> {
+        val data = MutableLiveData<Cursor>()
         GlobalScope.launch {
             val querying = helper.queryById(userData.id.toString())
             if (querying.count > 0) {
-                isExist.postValue(true)
-            } else {
-                isExist.postValue(false)
+                data.postValue(querying)
             }
         }
-        return isExist
+        return data
     }
 
     fun deleteUserById(helper: UserFavoriteHelper, userData: UserData) : LiveData<Boolean>{

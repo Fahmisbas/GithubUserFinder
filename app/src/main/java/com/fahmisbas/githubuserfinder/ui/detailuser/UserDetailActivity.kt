@@ -35,7 +35,7 @@ class UserDetailActivity : AppCompatActivity() {
         initDatabase()
         initViewModel()
         initialVisibility()
-        queryById()
+        isUserDataExist()
         setUsernamePath()
 
     }
@@ -47,11 +47,16 @@ class UserDetailActivity : AppCompatActivity() {
         observeChanges()
     }
 
-    private fun queryById() {
-        detailViewModel.isUserExists(helper, userDataProfile).observe(this, { isExist ->
-            if (isExist) {
-                userDataProfile =
-                    MappingHelper.mapCursorToObject(helper.queryById(userDataProfile.id.toString()))
+    private fun initDatabase() {
+        userDataProfile = intent.getParcelableExtra(EXTRA_USER_PROFILE) as UserData
+        helper = UserFavoriteHelper.getInstance(applicationContext)
+        helper.open()
+    }
+
+    private fun isUserDataExist() {
+        detailViewModel.queryById(helper, userDataProfile).observe(this, { cursor ->
+            if (cursor.count > 0) {
+                userDataProfile = MappingHelper.mapCursorToObject(cursor)
                 isUserExist = true
                 setStatusFavorite(true)
                 updateData(userDataProfile)
@@ -60,12 +65,6 @@ class UserDetailActivity : AppCompatActivity() {
                 btn_favorite.setImageResource(R.drawable.ic_favorite)
             }
         })
-    }
-
-    private fun initDatabase() {
-        userDataProfile = intent.getParcelableExtra(EXTRA_USER_PROFILE) as UserData
-        helper = UserFavoriteHelper.getInstance(applicationContext)
-        helper.open()
     }
 
     private fun setUserFavorite() {
@@ -83,7 +82,6 @@ class UserDetailActivity : AppCompatActivity() {
                     btn_favorite.setImageResource(R.drawable.ic_favorite)
                     deleteUserFavorite()
                     isUserExist = false
-
                 }
                 return
             }
@@ -126,10 +124,10 @@ class UserDetailActivity : AppCompatActivity() {
             this,
             ViewModelProvider.NewInstanceFactory()
         ).get(UserDetailViewModel::class.java)
-        usernamePath = detailViewModel
     }
 
     private fun setUsernamePath() {
+        usernamePath = detailViewModel
         userDataProfile.usernameId?.let {
             usernamePath?.usernameId(it)
         }
@@ -164,8 +162,7 @@ class UserDetailActivity : AppCompatActivity() {
     }
 
     private fun tabLayout(following: List<UserData>, followers: List<UserData>) {
-        val sectionsPagerAdapter =
-            SectionPagerAdapter(this, supportFragmentManager, following, followers)
+        val sectionsPagerAdapter = SectionPagerAdapter(this, supportFragmentManager, following, followers)
         view_pager.adapter = sectionsPagerAdapter
         tabs.setupWithViewPager(view_pager)
 
@@ -184,7 +181,6 @@ class UserDetailActivity : AppCompatActivity() {
                 loading.gone()
             }
             this.makeToast(resources.getString(R.string.error_to_load_data))
-
         } else {
             loading.gone()
 
@@ -200,11 +196,11 @@ class UserDetailActivity : AppCompatActivity() {
             userDataProfile.followingUrl = userData.followingUrl
             userDataProfile.followersUrl = userData.followersUrl
             loadDataVisibility()
-            isUserDataNullSetVisibility()
+            updateViews()
         }
     }
 
-    private fun isUserDataNullSetVisibility() {
+    private fun updateViews() {
         nullCheckSetVisibility() {
             tv_id_name.text = userDataProfile.usernameId
             tv_name.text = userDataProfile.username

@@ -17,6 +17,7 @@ import com.fahmisbas.githubuserfinder.ui.adapter.ListUserAdapter
 import com.fahmisbas.githubuserfinder.ui.detailuser.UserDetailActivity
 import com.fahmisbas.githubuserfinder.ui.detailuser.UserDetailActivity.Companion.EXTRA_USER_PROFILE
 import com.fahmisbas.githubuserfinder.ui.favoriteuser.UserFavoriteActivity
+import com.fahmisbas.githubuserfinder.ui.settings.SettingsActivity
 import com.fahmisbas.githubuserfinder.util.gone
 import com.fahmisbas.githubuserfinder.util.makeToast
 import com.fahmisbas.githubuserfinder.util.observe
@@ -146,9 +147,17 @@ class SearchUserActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.favorite) {
-            Intent(this@SearchUserActivity, UserFavoriteActivity::class.java).apply {
-                startActivity(this)
+        when(item.itemId) {
+            R.id.favorite -> {
+                Intent(this@SearchUserActivity, UserFavoriteActivity::class.java).apply {
+                    startActivity(this)
+                }
+            }
+
+            R.id.settings -> {
+                Intent(this@SearchUserActivity, SettingsActivity::class.java).apply {
+                    startActivity(this)
+                }
             }
         }
         return super.onOptionsItemSelected(item)

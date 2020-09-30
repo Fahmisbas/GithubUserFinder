@@ -1,5 +1,6 @@
 package com.fahmisbas.githubuserfinder.ui.detailuser
 
+import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.fahmisbas.githubuserfinder.data.db.UserFavoriteHelper
@@ -15,7 +16,7 @@ class UserDetailViewModel : ViewModel(), IUsernamePath {
     var following: LiveData<List<UserData>> = repository.getUserFollowing()
     var followers: LiveData<List<UserData>> = repository.getUserFollowers()
 
-    fun isUserExists(helper : UserFavoriteHelper, userData: UserData) : LiveData<Boolean> = repository.isUserExists(helper, userData)
+    fun queryById(helper : UserFavoriteHelper, userData: UserData) : LiveData<Cursor> = repository.isUserExists(helper, userData)
     fun deleteUserById(helper : UserFavoriteHelper, userData: UserData) : LiveData<Boolean> = repository.deleteUserById(helper, userData)
     fun insertUserData(helper: UserFavoriteHelper, userData: UserData) : LiveData<Boolean> = repository.insertUserData(helper, userData)
 

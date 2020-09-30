@@ -3,6 +3,8 @@
     package="com.fahmisbas.githubuserfinder">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +13,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.favoriteuser.UserFavoriteActivity"></activity>
+        <receiver
+            android:name=".data.service.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true">
+
+        </receiver>
+
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:label="@string/title_activity_settings" />
+        <activity android:name=".ui.favoriteuser.UserFavoriteActivity" />
         <activity android:name=".ui.detailuser.UserDetailActivity" />
         <activity android:name=".ui.searchuser.SearchUserActivity">
             <intent-filter>

@@ -64,7 +64,6 @@ class UserFavoriteActivity : AppCompatActivity() {
                     startActivity(this)
                 }
             }
-
         }
     }
 
