@@ -6,12 +6,11 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.fahmisbas.githubuserfinder.R
-import com.fahmisbas.githubuserfinder.data.db.UserFavoriteHelper
 import com.fahmisbas.githubuserfinder.data.entities.UserData
 import com.fahmisbas.githubuserfinder.ui.detailuser.tabs.SectionPagerAdapter
 import com.fahmisbas.githubuserfinder.util.*
 import kotlinx.android.synthetic.main.activity_detail_user.*
-import kotlinx.android.synthetic.main.layout_blank_indicator.*
+import kotlinx.android.synthetic.main.layout_empty_indicator.*
 import kotlinx.android.synthetic.main.layout_tabs.*
 import kotlinx.android.synthetic.main.layout_toolbar.view.*
 
@@ -21,7 +20,6 @@ class UserDetailActivity : AppCompatActivity() {
     private lateinit var userDataProfile: UserData
 
     private lateinit var detailViewModel: UserDetailViewModel
-    private lateinit var helper: UserFavoriteHelper
 
     private var usernamePath: IUsernamePath? = null
 
@@ -32,7 +30,6 @@ class UserDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_user)
 
-        initDatabase()
         initViewModel()
         initialVisibility()
         isUserDataExist()
@@ -44,17 +41,14 @@ class UserDetailActivity : AppCompatActivity() {
         super.onResume()
         initToolbar()
         setUserFavorite()
-        observeChanges()
+        observeDataChange()
     }
 
-    private fun initDatabase() {
-        userDataProfile = intent.getParcelableExtra(EXTRA_USER_PROFILE) as UserData
-        helper = UserFavoriteHelper.getInstance(applicationContext)
-        helper.open()
-    }
 
     private fun isUserDataExist() {
-        detailViewModel.queryById(helper, userDataProfile).observe(this, { cursor ->
+        userDataProfile = intent.getParcelableExtra(EXTRA_USER_PROFILE) as UserData
+
+        detailViewModel.getUserData(applicationContext, userDataProfile).observe(this, { cursor ->
             if (cursor.count > 0) {
                 userDataProfile = MappingHelper.mapCursorToObject(cursor)
                 isUserExist = true
@@ -82,6 +76,7 @@ class UserDetailActivity : AppCompatActivity() {
                     btn_favorite.setImageResource(R.drawable.ic_favorite)
                     deleteUserFavorite()
                     isUserExist = false
+                    this@UserDetailActivity.statusFavorite = false
                 }
                 return
             }
@@ -94,17 +89,17 @@ class UserDetailActivity : AppCompatActivity() {
     }
 
     private fun deleteUserFavorite() {
-        detailViewModel.deleteUserById(helper, userDataProfile).observe(this, { isSuccessful ->
+        detailViewModel.deleteUserData(applicationContext, userDataProfile).observe(this, { isSuccessful ->
             if (isSuccessful) {
-                this.makeToast("Sukses menghapus dari favorit")
+                this.makeToast(resources.getString(R.string.removed))
             }
         })
     }
 
     private fun addUserFavorite() {
-        detailViewModel.insertUserData(helper, userDataProfile).observe(this, { isSuccessful ->
+        detailViewModel.insertUserData(applicationContext, userDataProfile).observe(this, { isSuccessful ->
             if (isSuccessful) {
-                this.makeToast("Sukses menambah daftar favorit")
+                this.makeToast(resources.getString(R.string.added))
             }
         })
     }
@@ -149,7 +144,7 @@ class UserDetailActivity : AppCompatActivity() {
         return true
     }
 
-    private fun observeChanges() {
+    private fun observeDataChange() {
         observe(detailViewModel.userDetail, ::updateData)
         observe(detailViewModel.error, ::isError)
         detailViewModel.following.observe(this, { following ->
@@ -174,13 +169,16 @@ class UserDetailActivity : AppCompatActivity() {
             if (isUserExist) {
                 tv_failed_to_load_data.gone()
                 img_failed_to_load_data.gone()
-                loading.gone()
+                this.makeToast(resources.getString(R.string.error_to_load_data_following_followers))
             } else {
                 img_failed_to_load_data.visible()
                 tv_failed_to_load_data.visible()
-                loading.gone()
+                this.makeToast(resources.getString(R.string.error_to_load_data))
             }
-            this.makeToast(resources.getString(R.string.error_to_load_data))
+            tabs_layout.gone()
+            loading.gone()
+            btn_favorite.gone()
+
         } else {
             loading.gone()
 
@@ -239,12 +237,9 @@ class UserDetailActivity : AppCompatActivity() {
         img_company.visible()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        helper.close()
-    }
 
     companion object {
         const val EXTRA_USER_PROFILE = "user profile"
+        const val EXTRA_USER_ID = "user_id"
     }
 }

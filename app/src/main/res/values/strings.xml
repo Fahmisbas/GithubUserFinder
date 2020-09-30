@@ -1,10 +1,12 @@
 <resources>
-    <string name="app_name">Github User Finder</string>
+    <string name="app_name">Github User</string>
     <string name="search">Search</string>
-    <string name="github_user">Github User</string>
+    <string name="github_user" translatable="false">Github User</string>
     <string name="query_hint">Search User</string>
 
     <string name="error_to_load_data">Failed to load data</string>
+    <string name="error_to_load_data_following_followers">Failed to load Following and Followers data</string>
+
 
     <string name="tab_title_following">Following</string>
     <string name="tab_title_followers">Followers</string>
@@ -16,24 +18,15 @@
     <string name="language">Change Language</string>
     <string name="reminder">Set Daily Reminder</string>
 
+    <string name="added">Added Successfully</string>
+    <string name="removed">Removed Successfully</string>
 
-    <string name="list_is_empty">List is empty</string>
-    <string name="favorite_user">Favorite User</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="notif_message">Find GitHub user now!</string>
+    <string name="enabled">Enabled</string>
+    <string name="disabled">Disabled</string>
 
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
-
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="settings">Settings</string>
+    <string name="title_activity_settings" translatable="false">Title Activity Settings</string>
+    <string name="favorite_user">Favorites</string>
+    <string name="list_is_empty">List is empty</string>
 </resources>

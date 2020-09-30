@@ -1,11 +1,14 @@
 package com.fahmisbas.githubuserfinder.data.repositories
 
+import android.content.Context
 import android.database.Cursor
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.fahmisbas.githubuserfinder.data.db.UserFavoriteHelper
+import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.CONTENT_URI
 import com.fahmisbas.githubuserfinder.data.entities.UserData
 import com.fahmisbas.githubuserfinder.data.httprequest.ApiService
+import com.fahmisbas.githubuserfinder.util.toContentValues
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -14,7 +17,7 @@ import retrofit2.Response
 
 class UserDetailRepository {
 
-    val apiService = ApiService()
+    private val apiService = ApiService()
 
     private var userDetail = MutableLiveData<UserData>()
     private var error = MutableLiveData<Boolean>()
@@ -92,22 +95,28 @@ class UserDetailRepository {
 
     fun getError() = error
 
-    fun isUserExists(helper: UserFavoriteHelper, userData: UserData): LiveData<Cursor> {
+    fun getUserData(context : Context, userData: UserData): LiveData<Cursor> {
         val data = MutableLiveData<Cursor>()
+
+        val uri = "$CONTENT_URI/${userData.id}".toUri()
+
         GlobalScope.launch {
-            val querying = helper.queryById(userData.id.toString())
-            if (querying.count > 0) {
-                data.postValue(querying)
+            val cursor = context.contentResolver.query(uri, null, null,null,null)
+            if (cursor?.count ?: 0 > 0) {
+                data.postValue(cursor)
             }
         }
         return data
     }
 
-    fun deleteUserById(helper: UserFavoriteHelper, userData: UserData) : LiveData<Boolean>{
+    fun deleteUserData(context: Context, userData: UserData) : LiveData<Boolean>{
         val isSuccessful = MutableLiveData<Boolean>()
+
+        val uri = "$CONTENT_URI/${userData.id}".toUri()
+
         if (userData.id ?: 0 > 0) {
             GlobalScope.launch {
-                helper.deleteUserById(userData.id.toString()).toLong()
+                context.contentResolver.delete(uri, null, null)
                 isSuccessful.postValue(true)
             }
         } else {
@@ -116,10 +125,12 @@ class UserDetailRepository {
         return isSuccessful
     }
 
-    fun insertUserData(helper: UserFavoriteHelper, userData: UserData) : LiveData<Boolean> {
+    fun insertUserData(context: Context, userData: UserData) : LiveData<Boolean> {
         val isSuccessful = MutableLiveData<Boolean>()
-        helper.insertUserData(userData)
-        isSuccessful.postValue(true)
+        GlobalScope.launch {
+            context.contentResolver.insert(CONTENT_URI, userData.toContentValues())
+            isSuccessful.postValue(true)
+        }
         return isSuccessful
     }
 

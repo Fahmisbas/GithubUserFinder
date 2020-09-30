@@ -23,7 +23,7 @@ import com.fahmisbas.githubuserfinder.util.makeToast
 import com.fahmisbas.githubuserfinder.util.observe
 import com.fahmisbas.githubuserfinder.util.visible
 import kotlinx.android.synthetic.main.activity_seacrhuser.*
-import kotlinx.android.synthetic.main.layout_blank_indicator.*
+import kotlinx.android.synthetic.main.layout_empty_indicator.*
 
 class SearchUserActivity : AppCompatActivity() {
 
@@ -38,12 +38,12 @@ class SearchUserActivity : AppCompatActivity() {
 
         initViewModel()
         initToolbar()
+        initRecyclerView()
 
     }
 
     override fun onResume() {
         super.onResume()
-        initRecyclerView()
         observeChanges()
     }
 

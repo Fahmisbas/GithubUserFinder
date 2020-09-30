@@ -86,7 +86,6 @@ object AlarmHelper {
             it.cancel()
         }
 
-        // Cancel alarm
         alarmManager.cancel(pendingIntent)
     }
 

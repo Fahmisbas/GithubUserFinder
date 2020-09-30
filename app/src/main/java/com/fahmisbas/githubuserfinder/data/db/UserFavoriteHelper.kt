@@ -24,6 +24,7 @@ class UserFavoriteHelper(context: Context) {
 
     companion object {
         private const val DATABASE_TABLE = TABLE_NAME
+
         private var instance: UserFavoriteHelper? = null
 
         fun getInstance(context: Context): UserFavoriteHelper =
@@ -73,34 +74,55 @@ class UserFavoriteHelper(context: Context) {
         )
     }
 
+    fun deleteUserById(id : String) : Int {
+        return database.delete(TABLE_NAME, "$COLUMN_ID = '$id'", null)
+    }
+
     fun getAllUsers() : ArrayList<UserData> {
         val arrayList = ArrayList<UserData>()
-        val cursor = database.query(DATABASE_TABLE, null, null, null, null, null,
-            "$COLUMN_ID ASC", null)
-        cursor.moveToFirst()
-        var userData : UserData
-        if (cursor.count > 0) {
-            do {
-                userData = UserData()
-                userData.id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID))
-                userData.usernameId = cursor.getString(cursor.getColumnIndexOrThrow(
-                    COLUMN_USERNAME_ID))
-                userData.followersUrl = cursor.getString(cursor.getColumnIndexOrThrow(
-                    COLUMN_FOLLOWERS_URL))
-                userData.followingUrl = cursor.getString(cursor.getColumnIndexOrThrow(
-                    COLUMN_FOLLOWING_URL))
-                userData.location = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_LOCATION))
-                userData.company = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COMPANY))
-                userData.username = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USERNAME))
-                userData.profileImageUrl = cursor.getString(cursor.getColumnIndexOrThrow(
-                    COLUMN_PROFILE_IMAGE_URL))
-                userData.type = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TYPE))
+            val cursor = database.query(
+                DATABASE_TABLE, null, null, null, null, null,
+                "$COLUMN_ID ASC", null
+            )
+            cursor.moveToFirst()
+            var userData: UserData
+            if (cursor.count > 0) {
+                do {
+                    userData = UserData()
+                    userData.id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID))
+                    userData.usernameId = cursor.getString(
+                        cursor.getColumnIndexOrThrow(
+                            COLUMN_USERNAME_ID
+                        )
+                    )
+                    userData.followersUrl = cursor.getString(
+                        cursor.getColumnIndexOrThrow(
+                            COLUMN_FOLLOWERS_URL
+                        )
+                    )
+                    userData.followingUrl = cursor.getString(
+                        cursor.getColumnIndexOrThrow(
+                            COLUMN_FOLLOWING_URL
+                        )
+                    )
+                    userData.location =
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_LOCATION))
+                    userData.company =
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COMPANY))
+                    userData.username =
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USERNAME))
+                    userData.profileImageUrl = cursor.getString(
+                        cursor.getColumnIndexOrThrow(
+                            COLUMN_PROFILE_IMAGE_URL
+                        )
+                    )
+                    userData.type = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TYPE))
 
-                arrayList.add(userData)
-                cursor.moveToNext()
-            } while (!cursor.isAfterLast)
+                    arrayList.add(userData)
+                    cursor.moveToNext()
+                } while (!cursor.isAfterLast)
+            cursor.close()
         }
-        cursor.close()
         return arrayList
     }
 
@@ -118,11 +140,8 @@ class UserFavoriteHelper(context: Context) {
             args.put(COLUMN_COMPANY, userData.company)
             args.put(COLUMN_LOCATION, userData.location)
         }
-        return database.insert(DATABASE_TABLE, null, args)
-    }
 
-    fun deleteUserById(id : String) : Int {
-        return database.delete(TABLE_NAME, "$COLUMN_ID = '$id'", null)
+        return database.insert(DATABASE_TABLE, null, args)
     }
 
     fun updateUserData(userData: UserData?): Int {

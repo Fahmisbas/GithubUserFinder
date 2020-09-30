@@ -6,25 +6,12 @@ import android.content.Context
 import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
-import com.fahmisbas.githubuserfinder.data.db.UserFavoriteHelper
 import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.AUTHORITY
 import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.CONTENT_URI
 import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.TABLE_NAME
+import com.fahmisbas.githubuserfinder.data.db.UserFavoriteHelper
 
-class UserDataProvider : ContentProvider() {
-
-
-    companion object {
-        private const val USERDATA = 1
-        private const val USERDATA_ID = 2
-        private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
-        private lateinit var helper : UserFavoriteHelper
-
-        init {
-            uriMatcher.addURI(AUTHORITY, TABLE_NAME, USERDATA)
-            uriMatcher.addURI(AUTHORITY, "$TABLE_NAME/#", USERDATA_ID)
-        }
-    }
+class UserContentProvider : ContentProvider() {
 
     override fun onCreate(): Boolean {
         helper = UserFavoriteHelper.getInstance(context as Context)
@@ -47,7 +34,7 @@ class UserDataProvider : ContentProvider() {
     }
 
     override fun getType(uri: Uri): String? {
-        TODO("Not yet implemented")
+        return null
     }
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
@@ -67,6 +54,7 @@ class UserDataProvider : ContentProvider() {
         }
 
         context?.contentResolver?.notifyChange(CONTENT_URI, null)
+
         return delete
     }
 
@@ -76,7 +64,20 @@ class UserDataProvider : ContentProvider() {
         selection: String?,
         selectionArgs: Array<out String>?
     ): Int {
-        TODO("Not yet implemented")
+        return 0
+    }
+
+    companion object {
+        private const val USERDATA = 1
+        private const val USERDATA_ID = 2
+        private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
+        private lateinit var helper : UserFavoriteHelper
+
+        init {
+            uriMatcher.addURI(AUTHORITY, TABLE_NAME, USERDATA)
+            uriMatcher.addURI(AUTHORITY,
+                "$TABLE_NAME/#", USERDATA_ID)
+        }
     }
 
 }

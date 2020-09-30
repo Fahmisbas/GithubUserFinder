@@ -7,10 +7,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fahmisbas.githubuserfinder.R
-import com.fahmisbas.githubuserfinder.data.db.UserFavoriteHelper
 import com.fahmisbas.githubuserfinder.data.entities.UserData
 import com.fahmisbas.githubuserfinder.ui.adapter.ListUserAdapter
 import com.fahmisbas.githubuserfinder.ui.detailuser.UserDetailActivity
+import com.fahmisbas.githubuserfinder.ui.detailuser.UserDetailActivity.Companion.EXTRA_USER_ID
 import com.fahmisbas.githubuserfinder.ui.detailuser.UserDetailActivity.Companion.EXTRA_USER_PROFILE
 import com.fahmisbas.githubuserfinder.util.gone
 import com.fahmisbas.githubuserfinder.util.visible
@@ -22,7 +22,6 @@ class UserFavoriteActivity : AppCompatActivity() {
 
     private lateinit var viewModel: UserFavoriteViewModel
     private lateinit var listUserAdapter: ListUserAdapter
-    private lateinit var helper: UserFavoriteHelper
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +29,6 @@ class UserFavoriteActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user_favorite)
 
         initToolbar()
-        initDatabase()
         initViewModel()
         initRecyclerView()
 
@@ -39,11 +37,6 @@ class UserFavoriteActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         observeChanges()
-    }
-
-    private fun initDatabase() {
-        helper = UserFavoriteHelper.getInstance(applicationContext)
-        helper.open()
     }
 
     private fun initRecyclerView() {
@@ -56,11 +49,11 @@ class UserFavoriteActivity : AppCompatActivity() {
     }
 
     private fun onClick() {
-        listUserAdapter.onItemClickCallback = object : ListUserAdapter.OnItemClickCallback{
+        listUserAdapter.onItemClickCallback = object : ListUserAdapter.OnItemClickCallback {
             override fun onItemClicked(userData: UserData) {
                 Intent(this@UserFavoriteActivity, UserDetailActivity::class.java).apply {
                     putExtra(EXTRA_USER_PROFILE, userData)
-                    putExtra("id", userData.id)
+                    putExtra(EXTRA_USER_ID, userData.id)
                     startActivity(this)
                 }
             }
@@ -68,12 +61,12 @@ class UserFavoriteActivity : AppCompatActivity() {
     }
 
     private fun observeChanges() {
-        viewModel.getAllUsers(helper).observe(this, { users ->
+        viewModel.getUsersData(applicationContext).observe(this, { users ->
             listUserAdapter.updateList(users) { isNotEmpty ->
                 if (!isNotEmpty) {
                     empty_list.visible()
                     tv_empty_list.visible()
-                }else {
+                } else {
                     empty_list.gone()
                     tv_empty_list.gone()
                 }
@@ -97,7 +90,7 @@ class UserFavoriteActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         toolbar.icon_github.gone()
         toolbar.toolbar_title.gone()
-        title = "Favorites"
+        title = resources.getString(R.string.favorite_user)
     }
 
     override fun onSupportNavigateUp(): Boolean {

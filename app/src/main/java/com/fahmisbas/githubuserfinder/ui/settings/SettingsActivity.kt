@@ -43,7 +43,7 @@ class SettingsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         toolbar.icon_github.gone()
         toolbar.toolbar_title.gone()
-        title = "Settings"
+        title = resources.getString(R.string.settings)
 
     }
 
@@ -107,17 +107,16 @@ class SettingsActivity : AppCompatActivity() {
 
         private fun setReminder(reminder : Boolean) {
             if (reminder) {
-                AlarmHelper.createAlarm(mContext,getString(R.string.app_name), "Find GitHub user now!",
+                AlarmHelper.createAlarm(mContext,getString(R.string.app_name), resources.getString(R.string.notif_message),
                     ID_REPEATING, Calendar.getInstance().apply {
                         set(Calendar.HOUR_OF_DAY, 9)
                         set(Calendar.MINUTE, 0)
                         set(Calendar.SECOND, 0)
                     })
-                mContext.makeToast("Reminder is set")
+                mContext.makeToast(resources.getString(R.string.enabled))
             }else {
                 AlarmHelper.cancelAlarm(mContext, ID_REPEATING)
-                mContext.makeToast("Reminder is removed")
-
+                mContext.makeToast(resources.getString(R.string.disabled))
             }
         }
     }

@@ -19,7 +19,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0)
         AlarmHelper.showNotification(
             context,
-            title ?: "",
+            title ?: "title",
             message ?: "message",
             ID_REPEATING,
             pendingIntent

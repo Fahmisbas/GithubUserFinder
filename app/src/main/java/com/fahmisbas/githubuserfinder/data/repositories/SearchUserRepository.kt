@@ -33,7 +33,6 @@ class SearchUserRepository {
             override fun onFailure(call: Call<UserItems>, t: Throwable) {
                 error.postValue(true)
             }
-
         })
         return users
     }
