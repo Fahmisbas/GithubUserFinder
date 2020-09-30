@@ -56,14 +56,15 @@ object MappingHelper {
         return userData
     }
 
-    fun mapCursorToList(cursor: Cursor) : ArrayList<UserData> {
+    fun mapCursorToList(cursor: Cursor): ArrayList<UserData> {
         val arrayList = ArrayList<UserData>()
         cursor.moveToNext()
-        var userData : UserData
+        var userData: UserData
         if (cursor.count > 0) {
             do {
                 userData = UserData()
-                userData.id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseContract.NoteColumns.COLUMN_ID))
+                userData.id =
+                    cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseContract.NoteColumns.COLUMN_ID))
                 userData.usernameId = cursor.getString(
                     cursor.getColumnIndexOrThrow(
                         DatabaseContract.NoteColumns.COLUMN_USERNAME_ID
@@ -90,7 +91,8 @@ object MappingHelper {
                         DatabaseContract.NoteColumns.COLUMN_PROFILE_IMAGE_URL
                     )
                 )
-                userData.type = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.NoteColumns.COLUMN_TYPE))
+                userData.type =
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.NoteColumns.COLUMN_TYPE))
 
                 arrayList.add(userData)
                 cursor.moveToNext()

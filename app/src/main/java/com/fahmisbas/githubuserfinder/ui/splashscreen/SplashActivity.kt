@@ -11,7 +11,6 @@ import androidx.core.content.ContextCompat
 import com.fahmisbas.githubuserfinder.R
 import com.fahmisbas.githubuserfinder.ui.searchuser.SearchUserActivity
 
-
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +20,7 @@ class SplashActivity : AppCompatActivity() {
         handler.postDelayed({
             startActivity(Intent(applicationContext, SearchUserActivity::class.java))
             finish()
-        }, 2000L) //3000 L = 3 detik
+        }, 2000L)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val window: Window = this@SplashActivity.window

@@ -23,7 +23,6 @@ class UserFavoriteActivity : AppCompatActivity() {
     private lateinit var viewModel: UserFavoriteViewModel
     private lateinit var listUserAdapter: ListUserAdapter
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_favorite)

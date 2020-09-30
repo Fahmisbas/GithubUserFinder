@@ -89,19 +89,21 @@ class UserDetailActivity : AppCompatActivity() {
     }
 
     private fun deleteUserFavorite() {
-        detailViewModel.deleteUserData(applicationContext, userDataProfile).observe(this, { isSuccessful ->
-            if (isSuccessful) {
-                this.makeToast(resources.getString(R.string.removed))
-            }
-        })
+        detailViewModel.deleteUserData(applicationContext, userDataProfile)
+            .observe(this, { isSuccessful ->
+                if (isSuccessful) {
+                    this.makeToast(resources.getString(R.string.removed))
+                }
+            })
     }
 
     private fun addUserFavorite() {
-        detailViewModel.insertUserData(applicationContext, userDataProfile).observe(this, { isSuccessful ->
-            if (isSuccessful) {
-                this.makeToast(resources.getString(R.string.added))
-            }
-        })
+        detailViewModel.insertUserData(applicationContext, userDataProfile)
+            .observe(this, { isSuccessful ->
+                if (isSuccessful) {
+                    this.makeToast(resources.getString(R.string.added))
+                }
+            })
     }
 
     private fun initialVisibility() {
@@ -150,6 +152,7 @@ class UserDetailActivity : AppCompatActivity() {
         detailViewModel.following.observe(this, { following ->
             detailViewModel.followers.observe(this@UserDetailActivity, { followers ->
                 following?.let {
+                    load_viewpager.gone()
                     tabLayout(following, followers)
                 }
             })
@@ -157,7 +160,8 @@ class UserDetailActivity : AppCompatActivity() {
     }
 
     private fun tabLayout(following: List<UserData>, followers: List<UserData>) {
-        val sectionsPagerAdapter = SectionPagerAdapter(this, supportFragmentManager, following, followers)
+        val sectionsPagerAdapter =
+            SectionPagerAdapter(this, supportFragmentManager, following, followers)
         view_pager.adapter = sectionsPagerAdapter
         tabs.setupWithViewPager(view_pager)
 

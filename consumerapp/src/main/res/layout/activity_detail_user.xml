@@ -36,8 +36,8 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="@dimen/margin_medium"
-            android:visibility="gone"
             android:src="@drawable/ic_launcher_background"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

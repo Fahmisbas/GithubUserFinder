@@ -82,4 +82,9 @@ class UserContentProvider : ContentProvider() {
         }
     }
 
+    override fun onLowMemory() {
+        super.onLowMemory()
+        helper.close()
+    }
+
 }

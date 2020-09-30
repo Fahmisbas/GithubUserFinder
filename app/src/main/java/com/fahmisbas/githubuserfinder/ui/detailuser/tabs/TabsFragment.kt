@@ -11,7 +11,6 @@ import com.fahmisbas.githubuserfinder.ui.adapter.ListUserAdapter
 import com.fahmisbas.githubuserfinder.util.visible
 import kotlinx.android.synthetic.main.fragment_tabs.*
 
-
 class TabsFragment : Fragment() {
 
     private var adapter = ListUserAdapter(arrayListOf())

@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.layout_empty_indicator.*
 import kotlinx.android.synthetic.main.layout_tabs.*
 import kotlinx.android.synthetic.main.layout_toolbar.view.*
 
-
 class UserDetailActivity : AppCompatActivity() {
 
     private lateinit var userDataProfile: UserData
@@ -152,6 +151,7 @@ class UserDetailActivity : AppCompatActivity() {
         detailViewModel.following.observe(this, { following ->
             detailViewModel.followers.observe(this@UserDetailActivity, { followers ->
                 following?.let {
+                    load_viewpager.gone()
                     tabLayout(following, followers)
                 }
             })
@@ -184,7 +184,6 @@ class UserDetailActivity : AppCompatActivity() {
 
         } else {
             loading.gone()
-
         }
     }
 

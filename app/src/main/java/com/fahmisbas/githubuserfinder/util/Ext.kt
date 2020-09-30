@@ -17,7 +17,6 @@ import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Compa
 import com.fahmisbas.githubuserfinder.data.db.DatabaseContract.NoteColumns.Companion.COLUMN_USERNAME_ID
 import com.fahmisbas.githubuserfinder.data.entities.UserData
 
-
 fun Context.makeToast(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }
