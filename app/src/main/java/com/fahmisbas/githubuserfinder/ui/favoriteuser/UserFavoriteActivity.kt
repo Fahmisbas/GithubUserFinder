@@ -13,6 +13,7 @@ import com.fahmisbas.githubuserfinder.ui.userdetail.UserDetailActivity
 import com.fahmisbas.githubuserfinder.ui.userdetail.UserDetailActivity.Companion.EXTRA_USER_ID
 import com.fahmisbas.githubuserfinder.ui.userdetail.UserDetailActivity.Companion.EXTRA_USER_PROFILE
 import com.fahmisbas.githubuserfinder.util.gone
+import com.fahmisbas.githubuserfinder.util.observe
 import com.fahmisbas.githubuserfinder.util.visible
 import kotlinx.android.synthetic.main.activity_user_favorite.*
 import kotlinx.android.synthetic.main.layout_toolbar.view.*
@@ -60,17 +61,19 @@ class UserFavoriteActivity : AppCompatActivity() {
     }
 
     private fun observeChanges() {
-        viewModel.getUsersData(applicationContext).observe(this, { users ->
-            listUserAdapter.updateList(users) { isNotEmpty ->
-                if (!isNotEmpty) {
-                    empty_list.visible()
-                    tv_empty_list.visible()
-                } else {
-                    empty_list.gone()
-                    tv_empty_list.gone()
-                }
+        observe(viewModel.getUsersData(applicationContext), ::updateList)
+    }
+
+    private fun updateList(users: List<UserData>) {
+        listUserAdapter.updateList(users) { isNotEmpty ->
+            if (isNotEmpty) {
+                empty_list.gone()
+                tv_empty_list.gone()
+            } else {
+                empty_list.visible()
+                tv_empty_list.visible()
             }
-        })
+        }
     }
 
     private fun initViewModel() {

@@ -67,6 +67,11 @@ class UserContentProvider : ContentProvider() {
         return 0
     }
 
+    override fun onLowMemory() {
+        super.onLowMemory()
+        helper.close()
+    }
+
     companion object {
         private const val USERDATA = 1
         private const val USERDATA_ID = 2
@@ -81,10 +86,4 @@ class UserContentProvider : ContentProvider() {
             )
         }
     }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        helper.close()
-    }
-
 }

@@ -44,6 +44,7 @@ class ListUserAdapter(
                 Glide.with(context)
                     .load(userData.profileImageUrl)
                     .into(img_profile_picture)
+
                 setOnClickListener {
                     itemClicked.invoke(itemView)
                 }

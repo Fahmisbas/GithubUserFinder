@@ -93,7 +93,6 @@ class SearchUserActivity : AppCompatActivity() {
                 img_search_icon.gone()
                 tv_waiting_for_search.gone()
             }
-
         }
     }
 
