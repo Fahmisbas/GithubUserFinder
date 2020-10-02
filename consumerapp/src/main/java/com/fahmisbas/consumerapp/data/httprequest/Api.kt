@@ -1,19 +1,12 @@
 package com.fahmisbas.consumerapp.data.httprequest
 
 import com.fahmisbas.consumerapp.data.entities.UserData
-import com.fahmisbas.consumerapp.data.entities.UserItems
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface Api {
-
-
-    @GET("search/users?")
-    @Headers("Authorization: token bbc75e90acbc00adffa11bd57c79e9c2ec71d9ff")
-    fun getUser(@Query("q") query: String): Call<UserItems>
 
     @GET("users/{username}")
     @Headers("Authorization: token bbc75e90acbc00adffa11bd57c79e9c2ec71d9ff")

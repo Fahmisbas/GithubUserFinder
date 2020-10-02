@@ -21,16 +21,16 @@ internal class DatabaseHelper(context: Context) :
         private const val DATABASE_NAME = "db_user_favorite"
         private const val DATABASE_VERSION = 1
 
-        private val SQL_CREATE_TABLE_USER_FAVORITE = "CREATE TABLE $TABLE_NAME" +
-                " (${COLUMN_ID} INTEGER," +
-                " ${COLUMN_USERNAME} TEXT," +
-                " ${COLUMN_USERNAME_ID} TEXT," +
-                " ${COLUMN_TYPE} TEXT," +
-                " ${COLUMN_FOLLOWING_URL} TEXT," +
-                " ${COLUMN_FOLLOWERS_URL} TEXT," +
-                " ${COLUMN_PROFILE_IMAGE_URL} TEXT," +
-                " ${COLUMN_COMPANY} TEXT," +
-                " ${COLUMN_LOCATION} TEXT)"
+        private const val SQL_CREATE_TABLE_USER_FAVORITE = "CREATE TABLE $TABLE_NAME" +
+                " ($COLUMN_ID INTEGER," +
+                " $COLUMN_USERNAME TEXT," +
+                " $COLUMN_USERNAME_ID TEXT," +
+                " $COLUMN_TYPE TEXT," +
+                " $COLUMN_FOLLOWING_URL TEXT," +
+                " $COLUMN_FOLLOWERS_URL TEXT," +
+                " $COLUMN_PROFILE_IMAGE_URL TEXT," +
+                " $COLUMN_COMPANY TEXT," +
+                " $COLUMN_LOCATION TEXT)"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {

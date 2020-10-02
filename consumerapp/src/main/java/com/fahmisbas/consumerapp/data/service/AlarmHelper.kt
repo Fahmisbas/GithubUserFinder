@@ -25,7 +25,8 @@ object AlarmHelper {
         notificationId: Int,
         intent: PendingIntent
     ) {
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID).apply {
@@ -58,7 +59,7 @@ object AlarmHelper {
 
     fun createAlarm(
         context: Context,
-        title : String,
+        title: String,
         message: String,
         requestCode: Int,
         time: Calendar

@@ -1,14 +1,12 @@
 package com.fahmisbas.consumerapp.data.httprequest
 
 import com.fahmisbas.consumerapp.data.entities.UserData
-import com.fahmisbas.consumerapp.data.entities.UserItems
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiService {
 
-    var userNameQuery: String? = null
     var usernameId: String? = null
 
     companion object {
@@ -32,9 +30,12 @@ class ApiService {
             .create(Api::class.java)
     }
 
-    fun getUser(): Call<UserItems>? = userNameQuery?.let { retrofitBuild().getUser(it) }
-    fun getUserFollowing(): Call<List<UserData>>? = usernameId?.let { retrofitBuild().getUserFollowing(it) }
-    fun getUserFollowers(): Call<List<UserData>>? = usernameId?.let { retrofitBuild().getUserFollowers(it) }
+    fun getUserFollowing(): Call<List<UserData>>? =
+        usernameId?.let { retrofitBuild().getUserFollowing(it) }
+
+    fun getUserFollowers(): Call<List<UserData>>? =
+        usernameId?.let { retrofitBuild().getUserFollowers(it) }
+
     fun getUserDetail(): Call<UserData>? = usernameId?.let { retrofitBuild().getUserDetail(it) }
 }
 

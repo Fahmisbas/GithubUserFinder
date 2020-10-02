@@ -51,7 +51,7 @@
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity android:name=".ui.favoriteuser.UserFavoriteActivity" />
-        <activity android:name=".ui.detailuser.UserDetailActivity" />
+        <activity android:name=".ui.userdetail.UserDetailActivity" />
         <activity android:name=".ui.searchuser.SearchUserActivity">
 
         </activity>

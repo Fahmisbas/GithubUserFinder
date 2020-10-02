@@ -1,15 +1,16 @@
-package com.fahmisbas.githubuserfinder.ui.detailuser.tabs
+package com.fahmisbas.consumerapp.ui.userdetail.tabs
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.fahmisbas.githubuserfinder.R
-import com.fahmisbas.githubuserfinder.data.entities.UserData
-import com.fahmisbas.githubuserfinder.ui.adapter.ListUserAdapter
-import com.fahmisbas.githubuserfinder.util.visible
+import com.fahmisbas.consumerapp.R
+import com.fahmisbas.consumerapp.data.entities.UserData
+import com.fahmisbas.consumerapp.ui.adapter.ListUserAdapter
+import com.fahmisbas.consumerapp.util.visible
 import kotlinx.android.synthetic.main.fragment_tabs.*
+
 
 class TabsFragment : Fragment() {
 

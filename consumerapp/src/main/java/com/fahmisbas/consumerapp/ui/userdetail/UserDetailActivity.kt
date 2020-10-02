@@ -1,4 +1,4 @@
-package com.fahmisbas.consumerapp.ui.detailuser
+package com.fahmisbas.consumerapp.ui.userdetail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.fahmisbas.consumerapp.R
 import com.fahmisbas.consumerapp.data.entities.UserData
-import com.fahmisbas.consumerapp.ui.detailuser.tabs.SectionPagerAdapter
+import com.fahmisbas.consumerapp.ui.userdetail.tabs.SectionPagerAdapter
 import com.fahmisbas.consumerapp.util.*
 import kotlinx.android.synthetic.main.activity_detail_user.*
 import kotlinx.android.synthetic.main.layout_empty_indicator.*
@@ -181,8 +181,6 @@ class UserDetailActivity : AppCompatActivity() {
             }
             tabs_layout.gone()
             loading.gone()
-            btn_favorite.gone()
-
         } else {
             loading.gone()
 

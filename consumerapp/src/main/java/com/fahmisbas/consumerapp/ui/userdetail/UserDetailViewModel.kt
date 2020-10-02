@@ -1,11 +1,11 @@
-package com.fahmisbas.githubuserfinder.ui.detailuser
+package com.fahmisbas.consumerapp.ui.userdetail
 
 import android.content.Context
 import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.fahmisbas.githubuserfinder.data.entities.UserData
-import com.fahmisbas.githubuserfinder.data.repositories.UserDetailRepository
+import com.fahmisbas.consumerapp.data.entities.UserData
+import com.fahmisbas.consumerapp.data.repositories.UserDetailRepository
 
 class UserDetailViewModel : ViewModel(), IUsernamePath {
 

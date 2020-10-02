@@ -105,16 +105,19 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        private fun setReminder(reminder : Boolean) {
+        private fun setReminder(reminder: Boolean) {
             if (reminder) {
-                AlarmHelper.createAlarm(mContext,getString(R.string.app_name), resources.getString(R.string.notif_message),
-                    ID_REPEATING, Calendar.getInstance().apply {
+                AlarmHelper.createAlarm(mContext,
+                    getString(R.string.app_name),
+                    resources.getString(R.string.notif_message),
+                    ID_REPEATING,
+                    Calendar.getInstance().apply {
                         set(Calendar.HOUR_OF_DAY, 9)
                         set(Calendar.MINUTE, 0)
                         set(Calendar.SECOND, 0)
                     })
                 mContext.makeToast(resources.getString(R.string.enabled))
-            }else {
+            } else {
                 AlarmHelper.cancelAlarm(mContext, ID_REPEATING)
                 mContext.makeToast(resources.getString(R.string.disabled))
             }

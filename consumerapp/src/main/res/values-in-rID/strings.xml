@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Github User Submission 2</string>
-    <string name="search">Pencarian</string>
-    <string name="query_hint">Cari User</string>
 
     <string name="error_to_load_data">Gagal memuat data</string>
     <string name="error_to_load_data_following_followers">Gagal memuat data</string>
@@ -25,5 +23,4 @@
 
     <string name="settings">Pengaturan</string>
     <string name="list_is_empty">Kosong</string>
-    <string name="favorite_user">Favorit</string>
 </resources>

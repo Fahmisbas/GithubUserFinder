@@ -1,12 +1,12 @@
-package com.fahmisbas.consumerapp.ui.detailuser.tabs
+package com.fahmisbas.githubuserfinder.ui.userdetail.tabs
 
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.fahmisbas.consumerapp.R
-import com.fahmisbas.consumerapp.data.entities.UserData
+import com.fahmisbas.githubuserfinder.R
+import com.fahmisbas.githubuserfinder.data.entities.UserData
 
 class SectionPagerAdapter(
     private val context: Context,

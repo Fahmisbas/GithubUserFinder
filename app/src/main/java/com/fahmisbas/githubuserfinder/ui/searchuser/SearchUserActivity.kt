@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fahmisbas.githubuserfinder.R
 import com.fahmisbas.githubuserfinder.data.entities.UserData
 import com.fahmisbas.githubuserfinder.ui.adapter.ListUserAdapter
-import com.fahmisbas.githubuserfinder.ui.detailuser.UserDetailActivity
-import com.fahmisbas.githubuserfinder.ui.detailuser.UserDetailActivity.Companion.EXTRA_USER_PROFILE
 import com.fahmisbas.githubuserfinder.ui.favoriteuser.UserFavoriteActivity
 import com.fahmisbas.githubuserfinder.ui.settings.SettingsActivity
+import com.fahmisbas.githubuserfinder.ui.userdetail.UserDetailActivity
+import com.fahmisbas.githubuserfinder.ui.userdetail.UserDetailActivity.Companion.EXTRA_USER_PROFILE
 import com.fahmisbas.githubuserfinder.util.gone
 import com.fahmisbas.githubuserfinder.util.makeToast
 import com.fahmisbas.githubuserfinder.util.observe
@@ -82,24 +82,19 @@ class SearchUserActivity : AppCompatActivity() {
     }
 
     private fun observeChanges() {
-        viewModel.users.observe(this, { users ->
-            if (users != null) {
-                listUserAdapter.updateList(users) { isNotEmpty ->
-                    if (isNotEmpty) {
-                        loading.gone()
-                        img_search_icon.gone()
-                        tv_waiting_for_search.gone()
-                    }
-                }
-            } else {
-                this.makeToast(resources.getString(R.string.error_to_load_data))
-                loading.gone()
-                img_failed_to_load_data.visible()
-                tv_failed_to_load_data.visible()
-                rv_users.gone()
-            }
-        })
+        observe(viewModel.users, ::updateList)
         observe(viewModel.error, ::isError)
+    }
+
+    private fun updateList(users: List<UserData>) {
+        listUserAdapter.updateList(users) { isNotEmpty ->
+            if (isNotEmpty) {
+                loading.gone()
+                img_search_icon.gone()
+                tv_waiting_for_search.gone()
+            }
+
+        }
     }
 
     private fun isError(error: Boolean) {

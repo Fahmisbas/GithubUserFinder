@@ -18,7 +18,7 @@ import com.fahmisbas.consumerapp.data.DatabaseContract.NoteColumns.Companion.COL
 import com.fahmisbas.consumerapp.data.entities.UserData
 
 
-fun Context.makeToast(text : String) {
+fun Context.makeToast(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }
 
@@ -34,7 +34,7 @@ fun <T> LifecycleOwner.observe(liveData: LiveData<T>, action: (t: T) -> Unit) {
     liveData.observe(this, { it?.let { t -> action(t) } })
 }
 
-fun UserData.toContentValues() : ContentValues =
+fun UserData.toContentValues(): ContentValues =
     ContentValues().apply {
         put(COLUMN_USERNAME_ID, usernameId)
         put(COLUMN_ID, id)

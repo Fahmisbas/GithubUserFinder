@@ -1,11 +1,10 @@
-package com.fahmisbas.consumerapp.ui.detailuser
+package com.fahmisbas.githubuserfinder.ui.userdetail
 
 import android.content.Context
-import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.fahmisbas.consumerapp.data.entities.UserData
-import com.fahmisbas.consumerapp.data.repositories.UserDetailRepository
+import com.fahmisbas.githubuserfinder.data.entities.UserData
+import com.fahmisbas.githubuserfinder.data.repositories.UserDetailRepository
 
 class UserDetailViewModel : ViewModel(), IUsernamePath {
 
@@ -16,7 +15,7 @@ class UserDetailViewModel : ViewModel(), IUsernamePath {
     var following: LiveData<List<UserData>> = repository.getUserFollowing()
     var followers: LiveData<List<UserData>> = repository.getUserFollowers()
 
-    fun getUserData(context: Context, userData: UserData): LiveData<Cursor> =
+    fun getUserData(context: Context, userData: UserData): LiveData<UserData> =
         repository.getUserData(context, userData)
 
     fun deleteUserData(context: Context, userData: UserData): LiveData<Boolean> =

@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fahmisbas.consumerapp.R
 import com.fahmisbas.consumerapp.data.entities.UserData
 import com.fahmisbas.consumerapp.ui.adapter.ListUserAdapter
-import com.fahmisbas.consumerapp.ui.detailuser.UserDetailActivity
-import com.fahmisbas.consumerapp.ui.detailuser.UserDetailActivity.Companion.EXTRA_USER_ID
-import com.fahmisbas.consumerapp.ui.detailuser.UserDetailActivity.Companion.EXTRA_USER_PROFILE
 import com.fahmisbas.consumerapp.ui.settings.SettingsActivity
+import com.fahmisbas.consumerapp.ui.userdetail.UserDetailActivity
+import com.fahmisbas.consumerapp.ui.userdetail.UserDetailActivity.Companion.EXTRA_USER_ID
+import com.fahmisbas.consumerapp.ui.userdetail.UserDetailActivity.Companion.EXTRA_USER_PROFILE
 import com.fahmisbas.consumerapp.util.gone
 import com.fahmisbas.consumerapp.util.visible
 import kotlinx.android.synthetic.main.activity_user_favorite.*

@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fahmisbas.githubuserfinder.R
 import com.fahmisbas.githubuserfinder.data.entities.UserData
 import com.fahmisbas.githubuserfinder.ui.adapter.ListUserAdapter
-import com.fahmisbas.githubuserfinder.ui.detailuser.UserDetailActivity
-import com.fahmisbas.githubuserfinder.ui.detailuser.UserDetailActivity.Companion.EXTRA_USER_ID
-import com.fahmisbas.githubuserfinder.ui.detailuser.UserDetailActivity.Companion.EXTRA_USER_PROFILE
+import com.fahmisbas.githubuserfinder.ui.userdetail.UserDetailActivity
+import com.fahmisbas.githubuserfinder.ui.userdetail.UserDetailActivity.Companion.EXTRA_USER_ID
+import com.fahmisbas.githubuserfinder.ui.userdetail.UserDetailActivity.Companion.EXTRA_USER_PROFILE
 import com.fahmisbas.githubuserfinder.util.gone
 import com.fahmisbas.githubuserfinder.util.visible
 import kotlinx.android.synthetic.main.activity_user_favorite.*
