@@ -33,17 +33,27 @@ class TabsFragment : Fragment() {
         if (arguments != null) {
             index = arguments?.getInt(SECTION_NUMBER, 0) as Int
         }
+        setFollowingList(index)
+        setFollowersList(index)
 
-        if (index == 1) {
-            arguments?.getParcelableArrayList<UserData>(USER_FOLLOWING)?.let {
+
+    }
+
+    private fun setFollowersList(index: Int) {
+        if (index == 2) {
+            arguments?.getParcelableArrayList<UserData>(USER_FOLLOWERS)?.let {
                 adapter.updateList(it) { isNotEmpty ->
                     if (isNotEmpty) {
                         onItemClicked()
                     } else empty_user_list.visible()
                 }
             }
-        } else if (index == 2) {
-            arguments?.getParcelableArrayList<UserData>(USER_FOLLOWERS)?.let {
+        }
+    }
+
+    private fun setFollowingList(index: Int) {
+        if (index == 1) {
+            arguments?.getParcelableArrayList<UserData>(USER_FOLLOWING)?.let {
                 adapter.updateList(it) { isNotEmpty ->
                     if (isNotEmpty) {
                         onItemClicked()

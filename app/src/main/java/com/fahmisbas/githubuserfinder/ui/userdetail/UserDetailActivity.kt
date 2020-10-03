@@ -20,11 +20,9 @@ import kotlinx.android.synthetic.main.layout_toolbar.view.*
 class UserDetailActivity : AppCompatActivity() {
 
     private lateinit var userDataProfile: UserData
-
     private lateinit var viewModel: UserDetailViewModel
 
     private var usernamePath: IUsernamePath? = null
-
     private var statusFavorite = false
     private var isUserExist = false
 
@@ -219,7 +217,7 @@ class UserDetailActivity : AppCompatActivity() {
             tv_location.text = userDataProfile.location
             Glide.with(applicationContext)
                 .load(userDataProfile.profileImageUrl)
-                .placeholder(R.drawable.ic_error_24)
+                .placeholder(R.drawable.ic_github)
                 .into(img_profile_picture)
         }
     }

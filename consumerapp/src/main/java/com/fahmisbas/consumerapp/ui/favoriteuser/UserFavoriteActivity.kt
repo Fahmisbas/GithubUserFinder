@@ -16,8 +16,9 @@ import com.fahmisbas.consumerapp.ui.userdetail.UserDetailActivity
 import com.fahmisbas.consumerapp.ui.userdetail.UserDetailActivity.Companion.EXTRA_USER_ID
 import com.fahmisbas.consumerapp.ui.userdetail.UserDetailActivity.Companion.EXTRA_USER_PROFILE
 import com.fahmisbas.consumerapp.util.gone
-import com.fahmisbas.consumerapp.util.visible
+import com.fahmisbas.consumerapp.util.observe
 import kotlinx.android.synthetic.main.activity_user_favorite.*
+import kotlinx.android.synthetic.main.layout_empty_indicator.*
 
 
 class UserFavoriteActivity : AppCompatActivity() {
@@ -63,17 +64,17 @@ class UserFavoriteActivity : AppCompatActivity() {
     }
 
     private fun observeChanges() {
-        viewModel.getUsersData(applicationContext).observe(this, { users ->
-            listUserAdapter.updateList(users) { isNotEmpty ->
-                if (!isNotEmpty) {
-                    empty_list.visible()
-                    tv_empty_list.visible()
-                } else {
-                    empty_list.gone()
-                    tv_empty_list.gone()
-                }
+        observe(viewModel.getUsersData(applicationContext), ::updateList)
+    }
+
+    private fun updateList(users: List<UserData>) {
+        listUserAdapter.updateList(users) { isNotEmpty ->
+            if (isNotEmpty) {
+                loading.gone()
+                img_search_icon.gone()
+                tv_waiting_for_search.gone()
             }
-        })
+        }
     }
 
     private fun initViewModel() {
