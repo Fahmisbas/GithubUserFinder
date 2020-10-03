@@ -156,5 +156,4 @@ class SearchUserActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
 }

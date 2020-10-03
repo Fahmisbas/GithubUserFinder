@@ -1,13 +1,13 @@
 package com.fahmisbas.consumerapp.data.repositories
 
 import android.content.Context
-import android.database.Cursor
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.fahmisbas.consumerapp.data.DatabaseContract.NoteColumns.Companion.CONTENT_URI
 import com.fahmisbas.consumerapp.data.entities.UserData
 import com.fahmisbas.consumerapp.data.httprequest.ApiService
+import com.fahmisbas.consumerapp.util.MappingHelper
 import com.fahmisbas.consumerapp.util.toContentValues
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -95,15 +95,15 @@ class UserDetailRepository {
 
     fun getError() = error
 
-    fun getUserData(context: Context, userData: UserData): LiveData<Cursor> {
-        val data = MutableLiveData<Cursor>()
+    fun getUserData(context: Context, userData: UserData): LiveData<UserData> {
+        val data = MutableLiveData<UserData>()
 
         val uri = "$CONTENT_URI/${userData.id}".toUri()
 
         GlobalScope.launch {
             val cursor = context.contentResolver.query(uri, null, null, null, null)
             if (cursor?.count ?: 0 > 0) {
-                data.postValue(cursor)
+                data.postValue(MappingHelper.mapCursorToObject(cursor))
             }
         }
         return data

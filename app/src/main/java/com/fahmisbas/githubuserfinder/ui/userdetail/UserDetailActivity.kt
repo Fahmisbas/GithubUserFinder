@@ -34,7 +34,7 @@ class UserDetailActivity : AppCompatActivity() {
 
         initViewModel()
         initialVisibility()
-        getUserDataExtra()
+        userDataExtra()
         setUsernamePath()
     }
 
@@ -80,7 +80,7 @@ class UserDetailActivity : AppCompatActivity() {
     }
 
 
-    private fun getUserDataExtra() {
+    private fun userDataExtra() {
         userDataProfile = intent.getParcelableExtra(EXTRA_USER_PROFILE) as UserData
     }
 
@@ -88,7 +88,7 @@ class UserDetailActivity : AppCompatActivity() {
     private fun observeDataChanges() {
         observe(viewModel.userDetail, ::updateData)
         observe(viewModel.error, ::isError)
-        observe(viewModel.getUserData(applicationContext, userDataProfile), ::getUserDataDb)
+        observe(viewModel.getUserData(applicationContext, userDataProfile), ::userDataDb)
         viewModel.following.observe(this, { following ->
             viewModel.followers.observe(this@UserDetailActivity, { followers ->
                 following?.let {
@@ -121,7 +121,6 @@ class UserDetailActivity : AppCompatActivity() {
             addUserFavorite()
         } else {
             btn_favorite.setImageResource(R.drawable.ic_favorite)
-            deleteUserFavorite()
             isUserExist = false
         }
     }
@@ -152,7 +151,7 @@ class UserDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun getUserDataDb(userData: UserData?) {
+    private fun userDataDb(userData: UserData?) {
         if (userData != null) {
             isUserExist = true
             setStatusFavorite(true)
@@ -238,7 +237,6 @@ class UserDetailActivity : AppCompatActivity() {
             tv_location.gone()
             img_location.gone()
         }
-
         function.invoke()
     }
 

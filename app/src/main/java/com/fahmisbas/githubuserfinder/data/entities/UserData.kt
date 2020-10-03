@@ -12,9 +12,10 @@ class UserItems(
 @Parcelize
 class UserData(
     var id: Int? = 0,
+    var type: String? = null,
+    var location: String? = null,
     @SerializedName("login")
     var usernameId: String? = null,
-    var type: String? = null,
     @SerializedName("avatar_url")
     var profileImageUrl: String? = null,
     @SerializedName("following_url")
@@ -25,5 +26,4 @@ class UserData(
     var username: String? = null,
     @SerializedName("company")
     var company: String? = null,
-    var location: String? = null,
 ) : Parcelable

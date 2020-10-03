@@ -8,7 +8,10 @@ import com.bumptech.glide.Glide
 import com.fahmisbas.consumerapp.R
 import com.fahmisbas.consumerapp.data.entities.UserData
 import com.fahmisbas.consumerapp.ui.userdetail.tabs.SectionPagerAdapter
-import com.fahmisbas.consumerapp.util.*
+import com.fahmisbas.consumerapp.util.gone
+import com.fahmisbas.consumerapp.util.makeToast
+import com.fahmisbas.consumerapp.util.observe
+import com.fahmisbas.consumerapp.util.visible
 import kotlinx.android.synthetic.main.activity_detail_user.*
 import kotlinx.android.synthetic.main.layout_empty_indicator.*
 import kotlinx.android.synthetic.main.layout_tabs.*
@@ -19,7 +22,7 @@ class UserDetailActivity : AppCompatActivity() {
 
     private lateinit var userDataProfile: UserData
 
-    private lateinit var detailViewModel: UserDetailViewModel
+    private lateinit var viewModel: UserDetailViewModel
 
     private var usernamePath: IUsernamePath? = null
 
@@ -32,32 +35,67 @@ class UserDetailActivity : AppCompatActivity() {
 
         initViewModel()
         initialVisibility()
-        isUserDataExist()
+        userDataExtra()
         setUsernamePath()
-
     }
 
     override fun onResume() {
         super.onResume()
         initToolbar()
         setUserFavorite()
-        observeDataChange()
+        observeDataChanges()
+    }
+
+    private fun initViewModel() {
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        ).get(UserDetailViewModel::class.java)
+    }
+
+    private fun initToolbar() {
+        val toolbar = toolbar_detailuser as Toolbar
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        toolbar.icon_github.gone()
+        toolbar.toolbar_title.gone()
+        title = userDataProfile.usernameId
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
 
-    private fun isUserDataExist() {
-        userDataProfile = intent.getParcelableExtra(EXTRA_USER_PROFILE) as UserData
+    private fun initialVisibility() {
+        img_profile_picture.gone()
+        img_location.gone()
+        img_company.gone()
+        img_search_icon.gone()
+        tv_waiting_for_search.gone()
+        img_failed_to_load_data.gone()
+        tv_failed_to_load_data.gone()
+    }
 
-        detailViewModel.getUserData(applicationContext, userDataProfile).observe(this, { cursor ->
-            if (cursor.count > 0) {
-                userDataProfile = MappingHelper.mapCursorToObject(cursor)
-                isUserExist = true
-                setStatusFavorite(true)
-                updateData(userDataProfile)
-            } else {
-                isUserExist = false
-                btn_favorite.setImageResource(R.drawable.ic_favorite)
-            }
+
+    private fun userDataExtra() {
+        userDataProfile = intent.getParcelableExtra(EXTRA_USER_PROFILE) as UserData
+    }
+
+    private fun observeDataChanges() {
+        observe(viewModel.userDetail, ::updateData)
+        observe(viewModel.error, ::isError)
+        observe(viewModel.getUserData(applicationContext, userDataProfile), ::userDataDb)
+        viewModel.following.observe(this, { following ->
+            viewModel.followers.observe(this@UserDetailActivity, { followers ->
+                following?.let {
+                    load_viewpager.gone()
+                    tabLayout(following, followers)
+                }
+            })
         })
     }
 
@@ -83,13 +121,12 @@ class UserDetailActivity : AppCompatActivity() {
             addUserFavorite()
         } else {
             btn_favorite.setImageResource(R.drawable.ic_favorite)
-            deleteUserFavorite()
             isUserExist = false
         }
     }
 
     private fun deleteUserFavorite() {
-        detailViewModel.deleteUserData(applicationContext, userDataProfile)
+        viewModel.deleteUserData(applicationContext, userDataProfile)
             .observe(this, { isSuccessful ->
                 if (isSuccessful) {
                     this.makeToast(resources.getString(R.string.removed))
@@ -98,7 +135,7 @@ class UserDetailActivity : AppCompatActivity() {
     }
 
     private fun addUserFavorite() {
-        detailViewModel.insertUserData(applicationContext, userDataProfile)
+        viewModel.insertUserData(applicationContext, userDataProfile)
             .observe(this, { isSuccessful ->
                 if (isSuccessful) {
                     this.makeToast(resources.getString(R.string.added))
@@ -106,57 +143,23 @@ class UserDetailActivity : AppCompatActivity() {
             })
     }
 
-    private fun initialVisibility() {
-        img_profile_picture.gone()
-        img_location.gone()
-        img_company.gone()
-        img_search_icon.gone()
-        tv_waiting_for_search.gone()
-        img_failed_to_load_data.gone()
-        tv_failed_to_load_data.gone()
-    }
-
-    private fun initViewModel() {
-        detailViewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.NewInstanceFactory()
-        ).get(UserDetailViewModel::class.java)
-    }
 
     private fun setUsernamePath() {
-        usernamePath = detailViewModel
+        usernamePath = viewModel
         userDataProfile.usernameId?.let {
             usernamePath?.usernameId(it)
         }
     }
 
-    private fun initToolbar() {
-        val toolbar = toolbar_detailuser as Toolbar
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        toolbar.icon_github.gone()
-        toolbar.toolbar_title.gone()
-        title = userDataProfile.usernameId
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
-    }
-
-    private fun observeDataChange() {
-        observe(detailViewModel.userDetail, ::updateData)
-        observe(detailViewModel.error, ::isError)
-        detailViewModel.following.observe(this, { following ->
-            detailViewModel.followers.observe(this@UserDetailActivity, { followers ->
-                following?.let {
-                    load_viewpager.gone()
-                    tabLayout(following, followers)
-                }
-            })
-        })
+    private fun userDataDb(userData: UserData?) {
+        if (userData != null) {
+            isUserExist = true
+            setStatusFavorite(true)
+            updateData(userData)
+        } else {
+            isUserExist = false
+            btn_favorite.setImageResource(R.drawable.ic_favorite)
+        }
     }
 
     private fun tabLayout(following: List<UserData>, followers: List<UserData>) {
@@ -183,7 +186,6 @@ class UserDetailActivity : AppCompatActivity() {
             loading.gone()
         } else {
             loading.gone()
-
         }
     }
 
@@ -195,9 +197,18 @@ class UserDetailActivity : AppCompatActivity() {
             userDataProfile.id = userData.id
             userDataProfile.followingUrl = userData.followingUrl
             userDataProfile.followersUrl = userData.followersUrl
+
             loadDataVisibility()
             updateViews()
         }
+    }
+
+    private fun loadDataVisibility() {
+        loading.gone()
+        tabs_layout.visible()
+        img_profile_picture.visible()
+        img_location.visible()
+        img_company.visible()
     }
 
     private fun updateViews() {
@@ -226,19 +237,8 @@ class UserDetailActivity : AppCompatActivity() {
             tv_location.gone()
             img_location.gone()
         }
-
         function.invoke()
     }
-
-
-    private fun loadDataVisibility() {
-        loading.gone()
-        tabs_layout.visible()
-        img_profile_picture.visible()
-        img_location.visible()
-        img_company.visible()
-    }
-
 
     companion object {
         const val EXTRA_USER_PROFILE = "user profile"

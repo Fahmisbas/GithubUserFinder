@@ -1,5 +1,6 @@
 package com.fahmisbas.githubuserfinder.ui.userdetail.tabs
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.fahmisbas.githubuserfinder.R
 import com.fahmisbas.githubuserfinder.data.entities.UserData
 import com.fahmisbas.githubuserfinder.ui.adapter.ListUserAdapter
+import com.fahmisbas.githubuserfinder.ui.userdetail.UserDetailActivity
 import com.fahmisbas.githubuserfinder.util.visible
 import kotlinx.android.synthetic.main.fragment_tabs.*
 
@@ -35,17 +37,28 @@ class TabsFragment : Fragment() {
         if (index == 1) {
             arguments?.getParcelableArrayList<UserData>(USER_FOLLOWING)?.let {
                 adapter.updateList(it) { isNotEmpty ->
-                    if (!isNotEmpty) {
-                        empty_user_list.visible()
-                    }
+                    if (isNotEmpty) {
+                        onItemClicked()
+                    } else empty_user_list.visible()
                 }
             }
         } else if (index == 2) {
             arguments?.getParcelableArrayList<UserData>(USER_FOLLOWERS)?.let {
                 adapter.updateList(it) { isNotEmpty ->
-                    if (!isNotEmpty) {
-                        empty_user_list.visible()
-                    }
+                    if (isNotEmpty) {
+                        onItemClicked()
+                    } else empty_user_list.visible()
+                }
+            }
+        }
+    }
+
+    private fun onItemClicked() {
+        adapter.onItemClickCallback = object : ListUserAdapter.OnItemClickCallback {
+            override fun onItemClicked(userData: UserData) {
+                Intent(context, UserDetailActivity::class.java).apply {
+                    putExtra(UserDetailActivity.EXTRA_USER_PROFILE, userData)
+                    startActivity(this)
                 }
             }
         }

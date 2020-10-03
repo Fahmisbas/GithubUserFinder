@@ -45,10 +45,10 @@ class UserFavoriteActivity : AppCompatActivity() {
             adapter = listUserAdapter
             layoutManager = LinearLayoutManager(this@UserFavoriteActivity)
         }
-        onClick()
+        onClickItem()
     }
 
-    private fun onClick() {
+    private fun onClickItem() {
         listUserAdapter.onItemClickCallback = object : ListUserAdapter.OnItemClickCallback {
             override fun onItemClicked(userData: UserData) {
                 Intent(this@UserFavoriteActivity, UserDetailActivity::class.java).apply {
