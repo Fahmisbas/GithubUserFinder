@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_extra__large"
         android:text="@string/copyright_by_fahmi_sulaiman" />
 
 

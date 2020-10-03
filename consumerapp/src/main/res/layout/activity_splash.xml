@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_extra__large"
         android:text="Copyright &#xA9; 2020 by Fahmi Sulaiman " />
 
 </RelativeLayout>
