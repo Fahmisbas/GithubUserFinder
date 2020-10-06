@@ -21,11 +21,9 @@ import kotlinx.android.synthetic.main.layout_toolbar.view.*
 class UserDetailActivity : AppCompatActivity() {
 
     private lateinit var userDataProfile: UserData
-
     private lateinit var viewModel: UserDetailViewModel
 
     private var usernamePath: IUsernamePath? = null
-
     private var statusFavorite = false
     private var isUserExist = false
 

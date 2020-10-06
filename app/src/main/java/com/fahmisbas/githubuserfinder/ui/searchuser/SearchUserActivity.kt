@@ -92,6 +92,11 @@ class SearchUserActivity : AppCompatActivity() {
                 loading.gone()
                 img_search_icon.gone()
                 tv_waiting_for_search.gone()
+                tv_user_not_found.gone()
+                img_empty_user.gone()
+            } else {
+                tv_user_not_found.visible()
+                img_empty_user.visible()
             }
         }
     }
@@ -130,6 +135,9 @@ class SearchUserActivity : AppCompatActivity() {
                 tv_waiting_for_search.gone()
                 img_failed_to_load_data.gone()
                 tv_failed_to_load_data.gone()
+                tv_user_not_found.gone()
+                img_empty_user.gone()
+
                 query?.let { onQueryTextChangeListener?.onQueryTextSubmit(query) }
                 return true
             }

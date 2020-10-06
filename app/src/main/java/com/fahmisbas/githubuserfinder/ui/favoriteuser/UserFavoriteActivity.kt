@@ -81,7 +81,6 @@ class UserFavoriteActivity : AppCompatActivity() {
             this,
             ViewModelProvider.NewInstanceFactory()
         ).get(UserFavoriteViewModel::class.java)
-
     }
 
     private fun initToolbar() {

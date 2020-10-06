@@ -34,8 +34,3 @@ class AlarmReceiver : BroadcastReceiver() {
         const val ID_REPEATING = 100
     }
 }
-
-
-
-
-
