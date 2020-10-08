@@ -22,8 +22,6 @@
 </p>
 
 
- 
-
 <h3 align="center">Profile, Favorite & Settings Screen</h3>
 <p align="center">
     <img src="images/profile-activity.png"
@@ -40,9 +38,10 @@
         width="200" />
 </p>
 
-## Library
+## Libraries
 - MVVM Design Pattern
 - Alarm Manager
+- Lifecycle
 - Broadcast Receiver
 - Kotlin Coroutines
 - SQLite Database
