@@ -39,10 +39,7 @@
 </p>
 
 ## Libraries
-- MVVM Design Pattern
-- Alarm Manager
 - Lifecycle
-- Broadcast Receiver
 - Kotlin Coroutines
 - SQLite Database
 - Retrofit 2
