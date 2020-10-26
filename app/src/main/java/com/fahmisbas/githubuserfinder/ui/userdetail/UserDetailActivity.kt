@@ -32,8 +32,10 @@ class UserDetailActivity : AppCompatActivity() {
 
         initViewModel()
         initialVisibility()
-        userDataExtra()
         setUsernamePath()
+
+        userDataProfile = intent.getParcelableExtra(EXTRA_USER_PROFILE) as UserData
+
     }
 
     override fun onResume() {
@@ -53,9 +55,11 @@ class UserDetailActivity : AppCompatActivity() {
     private fun initToolbar() {
         val toolbar = toolbar_detailuser as Toolbar
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.apply {
+            setDisplayShowTitleEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
         toolbar.icon_github.gone()
         toolbar.toolbar_title.gone()
         title = userDataProfile.usernameId
@@ -76,12 +80,6 @@ class UserDetailActivity : AppCompatActivity() {
         img_failed_to_load_data.gone()
         tv_failed_to_load_data.gone()
     }
-
-
-    private fun userDataExtra() {
-        userDataProfile = intent.getParcelableExtra(EXTRA_USER_PROFILE) as UserData
-    }
-
 
     private fun observeDataChanges() {
         observe(viewModel.userDetail, ::updateData)
@@ -189,13 +187,7 @@ class UserDetailActivity : AppCompatActivity() {
 
     private fun updateData(userData: UserData) {
         userData.let {
-            userDataProfile.username = userData.username
-            userDataProfile.company = userData.company
-            userDataProfile.location = userData.location
-            userDataProfile.id = userData.id
-            userDataProfile.followingUrl = userData.followingUrl
-            userDataProfile.followersUrl = userData.followersUrl
-
+            userDataProfile = userData
             loadDataVisibility()
             updateViews()
         }

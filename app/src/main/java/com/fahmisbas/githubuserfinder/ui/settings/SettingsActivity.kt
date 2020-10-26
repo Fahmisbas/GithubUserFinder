@@ -38,9 +38,11 @@ class SettingsActivity : AppCompatActivity() {
     private fun initToolbar() {
         val toolbar = toolbar_settings as Toolbar
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.apply {
+            setDisplayShowTitleEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
         toolbar.icon_github.gone()
         toolbar.toolbar_title.gone()
         title = resources.getString(R.string.settings)
@@ -55,8 +57,8 @@ class SettingsActivity : AppCompatActivity() {
     class SettingsFragment(appContext: Context) : PreferenceFragmentCompat(),
         SharedPreferences.OnSharedPreferenceChangeListener {
 
-        private lateinit var keyLanguage: String
-        private lateinit var keyReminder: String
+        private lateinit var languageKey: String
+        private lateinit var reminderKey: String
         private lateinit var languagePreference: Preference
         private lateinit var reminderPreference: SwitchPreference
         private var mContext = appContext
@@ -67,11 +69,11 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         private fun init() {
-            keyLanguage = resources.getString(R.string.key_language)
-            keyReminder = resources.getString(R.string.key_reminder)
+            languageKey = resources.getString(R.string.key_language)
+            reminderKey = resources.getString(R.string.key_reminder)
 
-            languagePreference = findPreference<Preference>(keyLanguage) as Preference
-            reminderPreference = findPreference<SwitchPreference>(keyReminder) as SwitchPreference
+            languagePreference = findPreference<Preference>(languageKey) as Preference
+            reminderPreference = findPreference<SwitchPreference>(reminderKey) as SwitchPreference
 
             changeLanguage()
 
@@ -98,7 +100,7 @@ class SettingsActivity : AppCompatActivity() {
             sharedPreferences: SharedPreferences?,
             key: String?
         ) {
-            if (key == keyReminder) {
+            if (key == reminderKey) {
                 sharedPreferences?.let {
                     setReminder(it.getBoolean(key, false))
                 }

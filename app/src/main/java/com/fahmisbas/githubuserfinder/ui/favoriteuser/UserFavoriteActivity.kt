@@ -86,13 +86,16 @@ class UserFavoriteActivity : AppCompatActivity() {
     private fun initToolbar() {
         val toolbar = toolbar_userfav as Toolbar
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.apply {
+            setDisplayShowTitleEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
         toolbar.icon_github.gone()
         toolbar.toolbar_title.gone()
         title = resources.getString(R.string.favorite_user)
     }
+
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
