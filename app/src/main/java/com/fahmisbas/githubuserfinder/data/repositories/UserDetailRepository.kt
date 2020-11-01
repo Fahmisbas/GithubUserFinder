@@ -125,5 +125,4 @@ class UserDetailRepository {
         isSuccessful.postValue(true)
         return isSuccessful
     }
-
 }

@@ -32,8 +32,12 @@ class UserDetailActivity : AppCompatActivity() {
 
         initViewModel()
         initialVisibility()
+        userDataExtra()
         setUsernamePath()
 
+    }
+
+    private fun userDataExtra() {
         userDataProfile = intent.getParcelableExtra(EXTRA_USER_PROFILE) as UserData
 
     }
@@ -117,6 +121,7 @@ class UserDetailActivity : AppCompatActivity() {
             addUserFavorite()
         } else {
             btn_favorite.setImageResource(R.drawable.ic_favorite)
+            deleteUserFavorite()
             isUserExist = false
         }
     }
@@ -185,9 +190,17 @@ class UserDetailActivity : AppCompatActivity() {
         }
     }
 
+
     private fun updateData(userData: UserData) {
         userData.let {
+            userDataProfile.username = userData.username
             userDataProfile = userData
+            userDataProfile.company = userData.company
+            userDataProfile.location = userData.location
+            userDataProfile.id = userData.id
+            userDataProfile.followingUrl = userData.followingUrl
+            userDataProfile.followersUrl = userData.followersUrl
+
             loadDataVisibility()
             updateViews()
         }
